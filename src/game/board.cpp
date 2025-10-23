@@ -8,18 +8,11 @@
 
 Board::Board() {
     // Create first placement
-    balls.reserve(4);
-
-    balls.push_back(Ball());
-    balls.push_back(Ball());
-    balls.push_back(Ball());
-    balls.push_back(Ball());
-
     reset();
 }
 
 Board::~Board() {
-    balls.clear();
+    
 }
 
 void Board::reset() {
@@ -30,12 +23,12 @@ void Board::reset() {
 }
 
 void Board::update() {
-    for (int i=0; i < balls.size(); ++i) {
-        for (int j=0; j < i; ++j) {
+    for (int i=0; i < sizeof(balls)/sizeof(balls[0]); ++i) {
+        for (int j=1+i; j < sizeof(balls)/sizeof(balls[0]); ++j) {
             balls[i].checkCollision(balls[j]);
         }
     }
-    for (int i=0; i < balls.size(); ++i) {
+    for (int i=0; i < sizeof(balls)/sizeof(balls[0]); ++i) {
         balls[i].checkWalls(sides);
         balls[i].update();
     }
@@ -43,7 +36,7 @@ void Board::update() {
 
 void Board::blit(const Window& _window) const {
     _window.blit(_window.getTexture(Textures::Board), sides);
-    for (int i=0; i < balls.size(); ++i) {
+    for (int i=0; i < sizeof(balls)/sizeof(balls[0]); ++i) {
         balls[i].blit(_window);
     }
 }

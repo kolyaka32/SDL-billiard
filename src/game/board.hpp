@@ -13,8 +13,8 @@
 //
 class Board {
 private:
-    std::vector<Ball> balls;
-    const SDL_FRect sides = {50, 50, 200, 200};
+    Ball balls[4];
+    const SDL_FRect sides = {50, 50, 400, 400};
 
 public:
     Board();

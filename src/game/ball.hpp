@@ -11,8 +11,9 @@
 //
 class Ball {
  private:
-    const float diameter = 10.0;
-    const float G = 0.1;
+    const float diameter = 40.0;
+    const float G = 0.5;
+    const float friction = 0.1;
     SDL_FRect dest;
     float ux = 0.0, uy = 0.0;
 

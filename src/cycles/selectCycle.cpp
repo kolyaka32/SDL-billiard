@@ -13,11 +13,11 @@
 // Starting basic template with main theme
 SelectCycle::SelectCycle(Window& _window)
 : BaseCycle(_window),
-titleText(window, 0.5, 0.15, {"Tic-tac-toe", "Крестики нолики", "Tic-tac-toe", "Крыжыкі нулікі"}, 3, Height::Title),
-singleplayerButton(window, 0.5, 0.3, {"Singleplayer", "Одиночная игра", "Einzelspiel", "Адзіночная гульня"}),
-twoPlayerButton(window, 0.5, 0.5, {"Two players", "Два игрока", "Zwei Spieler", "Два гульца"}),
-serverButton(window, 0.5, 0.7, {"Create server", "Создать сервер", "Server erstellen", "Стварыць сервер"}),
-connectButton(window, 0.5, 0.9, {"Connect", "Присоединиться", "Beitreten", "Далучыцца"}) {
+titleText(window, 0.5, 0.15, {"Billiard", "Бильярд", "Tic-tac-toe", "Крыжыкі нулікі"}, 3, Height::Title),
+//singleplayerButton(window, 0.5, 0.3, {"Singleplayer", "Одиночная игра", "Einzelspiel", "Адзіночная гульня"}),
+twoPlayerButton(window, 0.5, 0.5, {"Two players", "Два игрока", "Zwei Spieler", "Два гульца"})
+//serverButton(window, 0.5, 0.7, {"Create server", "Создать сервер", "Server erstellen", "Стварыць сервер"}),
+/*connectButton(window, 0.5, 0.9, {"Connect", "Присоединиться", "Beitreten", "Далучыцца"})*/ {
     // Starting menu song (if wasn't started)
     music.start(Music::Menu);
     logAdditional("Start select cycle");
@@ -28,22 +28,22 @@ bool SelectCycle::inputMouseDown() {
     if (settings.click(mouse)) {
         return true;
     }
-    if (singleplayerButton.in(mouse)) {
+    /*if (singleplayerButton.in(mouse)) {
         runCycle<SinglePlayerGameCycle>(window);
         return true;
-    }
+    }*/
     if (twoPlayerButton.in(mouse)) {
         runCycle<TwoPlayerGameCycle>(window);
         return true;
     }
-    if (serverButton.in(mouse)) {
+    /*if (serverButton.in(mouse)) {
         runCycle<ServerLobbyCycle>(window);
         return true;
     }
     if (connectButton.in(mouse)) {
         runCycle<ClientLobbyCycle>(window);
         return true;
-    }
+    }*/
     return false;
 }
 
@@ -68,10 +68,10 @@ void SelectCycle::draw() const {
     titleText.blit();
 
     // Blitting start buttons
-    singleplayerButton.blit();
+    //singleplayerButton.blit();
     twoPlayerButton.blit();
-    serverButton.blit();
-    connectButton.blit();
+    //serverButton.blit();
+    //connectButton.blit();
 
     // Settings menu
     settings.blit();

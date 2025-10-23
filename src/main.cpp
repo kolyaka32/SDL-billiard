@@ -13,7 +13,9 @@
 
 // Initialasing global objects in correct order
 // Logger
+#if (CHECK_ALL)
 std::ofstream logFile{"log.txt"};
+#endif
 
 // All side libries
 Libraries libraries{};
@@ -42,8 +44,7 @@ int main(int argv, char **args) {
     #endif
 
     // Creating main window
-    Window window{400, 400,
-        {"Tic-tac-toe", "Крестики нолики", "Tic-tac-toe", "Крыжыкі нулікі"}};
+    Window window{500, 500, {"Billiard", "Бильярд", "T", "К"}};
 
     // Running menu
     CycleTemplate::runCycle<SelectCycle>(window);
