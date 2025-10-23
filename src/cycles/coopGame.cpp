@@ -24,7 +24,7 @@ bool TwoPlayerGameCycle::inputMouseDown() {
     }
     if (gameSaveButton.in(mouse)) {
         // Save current game field
-        menu.addField(field.saveField());
+        //menu.addField(field.saveField());
         // Showing message of sucsessful saving
         savedInfo.reset();
         logAdditional("Saving field");
@@ -36,11 +36,11 @@ bool TwoPlayerGameCycle::inputMouseDown() {
     }
     // Checking, if game start
     if (menu.isActive()) {
-        if (const Field* f = menu.click(mouse)) {
+        /*if (const Field* f = menu.click(mouse)) {
             field.setNewField(f, window);
             menu.reset();
             logAdditional("Selecting new field");
-        }
+        }*/
         return true;
     } else {
         // Normal turn
@@ -75,31 +75,6 @@ void TwoPlayerGameCycle::draw() const {
     // Blitting field
     field.blit();
 
-    // Draw game state
-    switch (field.getState()) {
-    case GameState::CurrentPlay:
-        playersTurnsTexts[0].blit();
-        break;
-
-    case GameState::OpponentPlay:
-        playersTurnsTexts[1].blit();
-        break;
-
-    case GameState::CurrentWin:
-        firstWinText.blit();
-        break;
-
-    case GameState::OpponentWin:
-        secondWinText.blit();
-        break;
-
-    case GameState::NobodyWin:
-        nobodyWinText.blit();
-        break;
-
-    default:
-        break;
-    }
     // Draw menu with options to start
     menu.blit();
 
@@ -109,8 +84,6 @@ void TwoPlayerGameCycle::draw() const {
     gameSaveButton.blit();
     savedInfo.blit();
     settings.blit();
-
-    screamer.blit();
 
     // Bliting all to screen
     window.render();

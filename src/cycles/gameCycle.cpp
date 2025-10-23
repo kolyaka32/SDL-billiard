@@ -10,7 +10,6 @@
 GameCycle::GameCycle(Window& _window)
 : BaseCycle(_window),
 field(window),
-screamer(window),
 gameSaveButton(window, 0.88, 0.05, 0.08, Textures::SaveButton),
 gameMenuButton(window, 0.12, 0.05, 0.08, Textures::MenuButton),
 savedInfo(window, 0.5, 0.12, {"Game saved", "Игра сохранена", "Spiel gespeichert", "Гульня захавана"}),
@@ -29,13 +28,6 @@ nobodyWinText(window, 0.5, 0.05, {"Nobody win", "Ничья", "Unentschieden", "
     music.startFading(Music::MainCalm);
 }
 
-bool GameCycle::inputMouseDown() {
-    if (screamer.click(mouse)) {
-        return true;
-    }
-    return BaseCycle::inputMouseDown();
-}
-
 void GameCycle::inputKeys(SDL_Keycode key) {
     // Quiting to menu
     if (key == SDLK_Q) {
@@ -44,7 +36,7 @@ void GameCycle::inputKeys(SDL_Keycode key) {
 }
 
 void GameCycle::update() {
-    screamer.update();
     savedInfo.update();
     BaseCycle::update();
+    field.update();
 }

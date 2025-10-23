@@ -6,14 +6,14 @@
 #pragma once
 
 #include "../GUI/interface.hpp"
-#include "field.hpp"
+#include "save.hpp"
 
 
 // Cycle with field with game objects on it
 class GameField : public GUI::Template {
  private:
     // Game field
-    static Field currentField;
+    static Board currentField;
     // Function for do after game end
     void checkEnd();
     // Similar to checkEnd(), but for client side
@@ -21,17 +21,17 @@ class GameField : public GUI::Template {
 
  public:
     explicit GameField(const Window& window);
-    GameState getState() const;
-    void setState(GameState state);
-    static int getWidth();
-    static int getWindowWidth();
-    static int getWindowHeight();
+    // GameState getState() const;
+    // void setState(GameState state);
+    // static int getWidth();
 
     bool isGameEnd() const;
     void restart();
-    void setNewField(const Field* field, Window& window);  // Return true, if need to restart cycle
-    const Field& saveField();
-    const Array<char> getSave() const;
+    void setNewField(const Board& field);
+    const Save saveField() const;
+    // const Array<char> getSave() const;
+
+    void update();
 
     void blit() const override;
 

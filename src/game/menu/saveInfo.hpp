@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "../field.hpp"
+#include "../save.hpp"
 #include "../../GUI/interface.hpp"
 
 
@@ -22,7 +22,7 @@ class SaveInfo : public GUI::Template {
     GUI::HighlightedStaticText lastModifiedText;
 
  public:
-    explicit SaveInfo(const Window& window, const Field& field, int position);
+    explicit SaveInfo(const Window& window, const Save& field, int position);
     ~SaveInfo();
     void moveUp();
     void moveDown();

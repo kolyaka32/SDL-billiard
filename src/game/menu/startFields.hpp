@@ -6,14 +6,14 @@
 #pragma once
 
 #include "../../GUI/interface.hpp"
-#include "../field.hpp"
+#include "../save.hpp"
 
 
 // Option to start from new clear field with need size
 class StartFields {
  private:
     // Start variants
-    static Field startOptions[4];
+    static Save startOptions[4];
 
     // Graphical interface for selecting
     static bool active;
@@ -28,7 +28,7 @@ class StartFields {
     bool isActive();
     void reset();
 
-    const Field* click(const Mouse mouse);
+    const Save* click(const Mouse mouse);
 
     void blit() const;
 };

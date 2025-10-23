@@ -12,7 +12,7 @@ ClientGameCycle::ClientGameCycle(Window& _window)
 waitText(window, 0.5, 0.05, {"Wait start", "Ожидайте начала", "Warte auf Start", "Чаканне старту"}) {
     if (!isRestarted()) {
         field.restart();
-        field.setState(GameState::WaitState);
+        //field.setState(GameState::WaitState);
     }
     logAdditional("Start client game cycle");
 }
@@ -28,7 +28,7 @@ bool ClientGameCycle::inputMouseDown() {
     }
     if (gameSaveButton.in(mouse)) {
         // Save current game field
-        SavedFields::addField(field.saveField());
+        //SavedFields::addField(field.saveField());
         // Showing message of sucsessful saving
         savedInfo.reset();
         logAdditional("Saving field");
@@ -58,9 +58,9 @@ void ClientGameCycle::getInternetPacket(GetPacket& packet) {
     case ConnectionCode::GameNew:
         if (packet.isBytesAvaliable(3)) {
             // Creating new field from get data
-            const Field f = Field((char*)(packet.getPointer())+2);
+            //const Field f = Field((char*)(packet.getPointer())+2);
             // Setting it as current
-            field.setNewField(&f, window);
+            //field.setNewField(&f, window);
 
             // Making sound
             sounds.play(Sounds::Reset);
@@ -82,31 +82,6 @@ void ClientGameCycle::draw() const {
     // Blitting field
     field.blit();
 
-    // Bliting game menu
-    // menu.blit();
-
-    // Draw game state
-    switch (field.getState()) {
-    case GameState::CurrentPlay:
-        playersTurnsTexts[1].blit();
-        break;
-
-    case GameState::OpponentPlay:
-        playersTurnsTexts[0].blit();
-        break;
-
-    case GameState::CurrentWin:
-        looseText.blit();
-        break;
-
-    case GameState::OpponentWin:
-        winText.blit();
-        break;
-
-    case GameState::NobodyWin:
-        nobodyWinText.blit();
-        break;
-    }
     // Drawing upper dashboard
     exitButton.blit();
     gameSaveButton.blit();
@@ -116,8 +91,6 @@ void ClientGameCycle::draw() const {
     savedInfo.blit();
     disconnectedBox.blit();
     termianatedBox.blit();
-
-    screamer.blit();
 
     // Bliting all to screen
     window.render();

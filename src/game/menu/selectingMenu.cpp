@@ -36,15 +36,15 @@ bool SelectingMenu::isActive() {
     return active;
 }
 
-void SelectingMenu::addField(const Field& _field) {
-    savedFields.addFieldRuntime(_field);
+void SelectingMenu::addField(const Board& _field) {
+    //savedFields.addFieldRuntime(_field);
 }
 
-const Field* SelectingMenu::click(const Mouse _mouse) {
+const Board* SelectingMenu::click(const Mouse _mouse) {
     // If in menu
     if (active) {
         // Check, if selecting new field
-        if (startFields.isActive()) {
+        /*if (startFields.isActive()) {
             // Check, if select
             return startFields.click(_mouse);
         }
@@ -69,7 +69,7 @@ const Field* SelectingMenu::click(const Mouse _mouse) {
             // Starting selecting field from previous games
             savedFields.activate();
             return nullptr;
-        }
+        }*/
         if (exitButton.in(_mouse)) {
             // Going to menu
             CycleTemplate::stop();

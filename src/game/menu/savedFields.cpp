@@ -6,7 +6,7 @@
 #include "savedFields.hpp"
 
 
-std::vector<Field> SavedFields::startOptions{};
+std::vector<Save> SavedFields::startOptions{};
 bool SavedFields::active = false;
 int SavedFields::startField = 0;
 int SavedFields::endField = 0;
@@ -40,7 +40,7 @@ void SavedFields::reset() {
     active = false;
 }
 
-const Field* SavedFields::click(const Mouse _mouse) {
+const Save* SavedFields::click(const Mouse _mouse) {
     if (exitButton.in(_mouse)) {
         active = false;
         return nullptr;
@@ -95,9 +95,9 @@ void SavedFields::blit() const {
     }
 }
 
-void SavedFields::addFieldRuntime(const Field& _field) {
+void SavedFields::addFieldRuntime(const Board& _field) {
     // Add to global list
-    addField(_field);
+    //addField(_field);
 
     // Check, if add, when has place
     if (endField < maxFieldNumber) {
@@ -106,7 +106,7 @@ void SavedFields::addFieldRuntime(const Field& _field) {
             saveInfos[i]->moveDown();
         }
         // Creating new
-        saveInfos.push_back(new SaveInfo(window, _field, 0));
+        //saveInfos.push_back(new SaveInfo(window, _field, 0));
         endField++;
     } else {
         // Check, if need to save current position in list
@@ -116,25 +116,25 @@ void SavedFields::addFieldRuntime(const Field& _field) {
                 saveInfos[i]->moveDown();
             }
             // Creating new
-            saveInfos.push_back(new SaveInfo(window, _field, 0));
+            //saveInfos.push_back(new SaveInfo(window, _field, 0));
             endField++;
             startField++;
         } else {
             // Placing and not showing
-            saveInfos.push_back(new SaveInfo(window, _field, startField-endField));
+            //saveInfos.push_back(new SaveInfo(window, _field, startField-endField));
         }
     }
 }
 
 
 // Static objects
-void SavedFields::addField(const Field& _field) {
-    startOptions.push_back(_field);
+void SavedFields::addField(const Board& _field) {
+    //startOptions.push_back(_field);
 }
 
 void SavedFields::addField(const std::string _saveText) {
     // Check on size (has need byte of size and fit correctly)
-    if (_saveText.size() > 4 && _saveText.size() == Field::getSaveSize(_saveText[1]-'0')) {
+    /*if (_saveText.size() > 4 && _saveText.size() == Field::getSaveSize(_saveText[1]-'0')) {
         // Create field
         startOptions.push_back(Field(_saveText.c_str()));
         // Check control sum
@@ -147,14 +147,15 @@ void SavedFields::addField(const std::string _saveText) {
             startField++;
         }
         endField++;
-    }
+    }*/
 }
 
 void SavedFields::saveFields(std::ofstream& _fout) {
     for (auto f : startOptions) {
         _fout << "save = ";
-        const Array<char> save = f.getSave();
-        _fout.write(save.getData(), save.getSize());
+        // !
+        //const Array<char> save = f.getSave();
+        //_fout.write(save.getData(), save.getSize());
         _fout << '\n';
     }
 }

@@ -7,7 +7,6 @@
 
 #include "baseCycle.hpp"
 #include "../game/gameField.hpp"
-#include "../game/screamer.hpp"
 
 
 // Cycle with game template
@@ -15,7 +14,6 @@ class GameCycle : public BaseCycle {
  protected:
     // Active game part
     GameField field;
-    Screamer screamer;
 
     GUI::ImageButton gameSaveButton;
     GUI::ImageButton gameMenuButton;
@@ -28,7 +26,6 @@ class GameCycle : public BaseCycle {
     GUI::HighlightedStaticText nobodyWinText;
 
     // New overrided cycle functions
-    bool inputMouseDown() override;
     void inputKeys(const SDL_Keycode key) override;
     void update() override;
 

@@ -42,7 +42,7 @@ int main(int argv, char **args) {
     #endif
 
     // Creating main window
-    Window window{GameField::getWindowWidth(), GameField::getWindowHeight(),
+    Window window{400, 400,
         {"Tic-tac-toe", "Крестики нолики", "Tic-tac-toe", "Крыжыкі нулікі"}};
 
     // Running menu

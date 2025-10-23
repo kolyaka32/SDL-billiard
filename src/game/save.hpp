@@ -5,13 +5,15 @@
 
 #pragma once
 
+#include "board.hpp"
 
-// Menu for 
-class PassiveMenu {
+
+
+class Save {
 private:
     /* data */
 
 public:
-    PassiveMenu(/* args */);
-    ~PassiveMenu();
+    Save(/* args */);
+    ~Save();
 };

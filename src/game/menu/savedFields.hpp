@@ -13,7 +13,7 @@
 // Class for store all game saves and load it, when need
 class SavedFields : GUI::Template {
  private:
-    static std::vector<Field> startOptions;
+    static std::vector<Save> startOptions;
 
     // Draw options
     static bool active;
@@ -31,14 +31,14 @@ class SavedFields : GUI::Template {
     void activate();
     bool isActive();
     void reset();
-    const Field* click(const Mouse mouse);
+    const Save* click(const Mouse mouse);
     void moveUp();
     void moveDown();
     void blit() const override;
 
     // Work with global saves
-    void addFieldRuntime(const Field& field);  // Add another field during runtime
-    static void addField(const Field& field);
+    void addFieldRuntime(const Board& field);  // Add another field during runtime
+    static void addField(const Board& field);
     static void addField(const std::string saveText);
     static void saveFields(std::ofstream& stream);
 };

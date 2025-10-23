@@ -13,7 +13,7 @@ menu(_window) {
         menu.reset();
         field.restart();
         // Sending first field
-        internet.sendAllConfirmed<Array<char>>(ConnectionCode::GameNew, field.getSave());
+        // internet.sendAllConfirmed<Array<char>>(ConnectionCode::GameNew, field.getSave());
     }
     logAdditional("Start server game cycle");
 }
@@ -29,7 +29,7 @@ bool ServerGameCycle::inputMouseDown() {
     }
     if (gameSaveButton.in(mouse)) {
         // Save current game field
-        menu.addField(field.saveField());
+        //menu.addField(field.saveField());
         // Showing message of sucsessful saving
         savedInfo.reset();
         logAdditional("Saving field");
@@ -41,14 +41,14 @@ bool ServerGameCycle::inputMouseDown() {
     }
     // Checking, if game start
     if (menu.isActive()) {
-        if (const Field* f = menu.click(mouse)) {
+        /*if (const Field* f = menu.click(mouse)) {
             // Setting new field localy
             field.setNewField(f, window);
             // Sending it
             internet.sendAllConfirmed<Array<char>>(ConnectionCode::GameNew, field.getSave());
             menu.reset();
             logAdditional("Selecting new field");
-        }
+        }*/
         return true;
     } else {
         // Normal turn
@@ -110,32 +110,6 @@ void ServerGameCycle::draw() const {
     // Blitting field
     field.blit();
 
-    // Draw game state
-    switch (field.getState()) {
-    case GameState::CurrentPlay:
-        playersTurnsTexts[0].blit();
-        break;
-
-    case GameState::OpponentPlay:
-        playersTurnsTexts[1].blit();
-        break;
-
-    case GameState::CurrentWin:
-        firstWinText.blit();
-        break;
-
-    case GameState::OpponentWin:
-        secondWinText.blit();
-        break;
-
-    case GameState::NobodyWin:
-        nobodyWinText.blit();
-        break;
-
-    default:
-        break;
-    }
-
     // Bliting waiting menu, if need
     menu.blit();
 
@@ -149,8 +123,6 @@ void ServerGameCycle::draw() const {
     savedInfo.blit();
     disconnectedBox.blit();
     termianatedBox.blit();
-
-    screamer.blit();
 
     // Bliting all to screen
     window.render();

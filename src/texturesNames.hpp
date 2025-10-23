@@ -30,14 +30,8 @@ enum class Textures : unsigned {
     FlagBEL,
 
     // Main game part
-    // Game figures
-    Cross,
-    Circle,
-    // Empty cell
-    Cell,
-
-    // Additional part
-    Screamer,
+    Ball,
+    Board,
 
     // Global counter of all textures
     Count,

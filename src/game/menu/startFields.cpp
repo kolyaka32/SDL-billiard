@@ -6,11 +6,11 @@
 #include "startFields.hpp"
 
 
-Field StartFields::startOptions[4] = {
-    {3, 3},
-    {5, 4},
-    {7, 5},
-    {9, 7},
+Save StartFields::startOptions[4] = {
+    {},
+    {},
+    {},
+    {},
 };
 bool StartFields::active = false;
 
@@ -36,7 +36,7 @@ void StartFields::reset() {
     active = false;
 }
 
-const Field* StartFields::click(const Mouse _mouse) {
+const Save* StartFields::click(const Mouse _mouse) {
     if (closeButton.in(_mouse)) {
         active = false;
         return nullptr;

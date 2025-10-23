@@ -6,18 +6,18 @@
 #include "saveInfo.hpp"
 
 
-SaveInfo::SaveInfo(const Window& _window, const Field& field, int position)
+SaveInfo::SaveInfo(const Window& _window, const Save& _save, int _position)
 : Template(_window),
-backplate(_window, 0.5, position*0.2f+0.23f, 0.89, 0.2, 15, 2),
-//saveNameText(_window, 0.75, position*0.2f+0.16f, {field.getSaveName()}),
-lastModifiedText(_window, 0.26, position*0.2f+0.23f, {field.getSaveTime()}, 1, Height::Main, WHITE, GUI::Aligment::Left) {
+backplate(_window, 0.5, _position*0.2f+0.23f, 0.89, 0.2, 15, 2),
+//saveNameText(_window, 0.75, _position*0.2f+0.16f, {field.getSaveName()}),
+lastModifiedText(_window, 0.26, _position*0.2f+0.23f, {0/*_save.getSaveTime()*/}, 1, Height::Main, WHITE, GUI::Aligment::Left) {
     // Creating texture
-    texture = window.createTexture(field.getWindowWidth(), field.getWindowWidth());
-    window.setRenderTarget(texture);
+    texture = window.createTexture(100, 100);
+    /*window.setRenderTarget(texture);
     field.blitIcon(window);
-    window.resetRenderTarget();
+    window.resetRenderTarget();*/
     // Creating position to rednder it
-    dest = {0.08f*window.getWidth(), (position*0.2f+0.14f)*window.getHeight(), 0.18f*window.getWidth(), 0.18f*window.getHeight()};
+    dest = {0.08f*window.getWidth(), (_position*0.2f+0.14f)*window.getHeight(), 0.18f*window.getWidth(), 0.18f*window.getHeight()};
 }
 
 SaveInfo::~SaveInfo() {
