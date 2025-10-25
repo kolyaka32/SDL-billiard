@@ -53,11 +53,16 @@ void GameField::tryClickSingle(const Mouse _mouse) {
     }*/
 }
 
-void GameField::tryClickCoop(const Mouse _mouse) {
+void GameField::clickCoop(const Mouse _mouse) {
     /*if (currentField.isValid(_mouse) && currentField.getState() <= GameState::OpponentPlay) {
         currentField.clickTwo(currentField.getPosition(_mouse));
         checkEnd();
     }*/
+   currentField.click(_mouse);
+}
+
+void GameField::unclickCoop(const Mouse _mouse) {
+    currentField.unclick(_mouse);
 }
 
 bool GameField::tryClickServerCurrent(const Mouse _mouse) {
@@ -74,11 +79,6 @@ bool GameField::tryClickClientCurrent(const Mouse _mouse) {
         checkEndInverted();
     }*/
     return false;
-}
-
-Uint8 GameField::getLastTurn(const Mouse _mouse) {
-    //SDL_Point p = currentField.getPosition(_mouse);
-    //return p.y*currentField.width+p.x;
 }
 
 void GameField::clickServerOpponent(Uint8 _p) {

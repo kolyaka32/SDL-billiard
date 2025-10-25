@@ -22,6 +22,25 @@ void Board::reset() {
     balls[3].set(150, 200);
 }
 
+void Board::click(const Mouse _mouse) {
+    // Finding nearest ball
+    selected = nullptr;
+    for (int i=0; i < sizeof(balls)/sizeof(balls[0]); ++i) {
+        if (balls[i].isSelected(_mouse)) {
+            selected = balls + i;
+            lastPointX = _mouse.getX();
+            lastPointY = _mouse.getY();
+        }
+    }
+}
+
+void Board::unclick(const Mouse _mouse) {
+    // Launching selected ball
+    if (selected) {
+        selected->setSpeed(_mouse.getX() - lastPointX, _mouse.getY() - lastPointY);
+    }
+}
+
 void Board::update() {
     for (int i=0; i < sizeof(balls)/sizeof(balls[0]); ++i) {
         for (int j=1+i; j < sizeof(balls)/sizeof(balls[0]); ++j) {

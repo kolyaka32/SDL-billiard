@@ -44,9 +44,14 @@ bool TwoPlayerGameCycle::inputMouseDown() {
         return true;
     } else {
         // Normal turn
-        field.tryClickCoop(mouse);
+        field.clickCoop(mouse);
     }
     return false;
+}
+
+void TwoPlayerGameCycle::inputMouseUp() {
+    mouse.updatePos();
+    field.unclickCoop(mouse);
 }
 
 void TwoPlayerGameCycle::inputMouseWheel(float _wheelY) {

@@ -14,12 +14,16 @@
 class Board {
 private:
     Ball balls[4];
+    Ball* selected = 0;
+    float lastPointX = 0, lastPointY = 0;
     const SDL_FRect sides = {50, 50, 400, 400};
 
 public:
     Board();
     ~Board();
     void reset();
+    void click(const Mouse _mouse);
+    void unclick(const Mouse _mouse);
     void update();
     void blit(const Window& window) const;
 };
