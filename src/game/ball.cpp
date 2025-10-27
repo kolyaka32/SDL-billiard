@@ -138,6 +138,7 @@ void Ball::update() {
 }
 
 
-void Ball::blit(const Window& _window) const {
-    _window.blit(_window.getTexture(Textures::Ball), dest);
+void Ball::blit(const Window& _window, const Grid _grid) const {
+    _window.blit(_window.getTexture(Textures::Ball),
+        _grid.absoluteRect(dest));
 }

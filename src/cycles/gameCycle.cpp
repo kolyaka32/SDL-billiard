@@ -35,6 +35,7 @@ void GameCycle::inputMouseUp() {
 
 void GameCycle::inputMouseWheel(float _wheelY) {
     BaseCycle::inputMouseWheel(_wheelY);
+    field.scroll(_wheelY);
 }
 
 void GameCycle::inputKeys(SDL_Keycode _key) {

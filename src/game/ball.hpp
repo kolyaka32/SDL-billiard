@@ -6,6 +6,7 @@
 #pragma once
 
 #include "../data/app.hpp"
+#include "navigation.hpp"
 
 
 //
@@ -28,5 +29,5 @@ class Ball {
     void update();
     void checkWalls(const SDL_FRect rect);
     void checkCollision(Ball& ball);
-    void blit(const Window& window) const;
+    void blit(const Window& window, const Grid grid) const;
 };

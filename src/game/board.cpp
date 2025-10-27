@@ -36,6 +36,9 @@ void Board::click(const Mouse _mouse) {
             return;
         }
     }*/
+    if (_mouse.getState() & SDL_BUTTON_MMASK) {
+        grid.click(_mouse.getX(), _mouse.getY());
+    }
 }
 
 void Board::unclick(const Mouse _mouse) {
@@ -43,24 +46,34 @@ void Board::unclick(const Mouse _mouse) {
     /*if (selected) {
         selected->setSpeed(_mouse.getX() - lastPointX, _mouse.getY() - lastPointY);
     }*/
+    grid.unClick(_mouse.getX(), _mouse.getY());
+}
+
+void Board::scroll(float _wheelY) {
+    Mouse mouse{};
+    mouse.updatePos();
+
+    grid.zoom(mouse.getX(), mouse.getY(), _wheelY);
 }
 
 void Board::update() {
     Mouse mouse{};
     mouse.updatePos();
-
     if (mouse.getState() & SDL_BUTTON_LMASK) {
         // Appling push to all
         for (int i=0; i < balls.size(); ++i) {
-            balls[i].push(mouse.getX(), mouse.getY());
+            balls[i].push(grid.localX(mouse.getX()),
+                grid.localY(mouse.getY()));
         }
     }
     if (mouse.getState() & SDL_BUTTON_RMASK) {
         // Appling pull to all
         for (int i=0; i < balls.size(); ++i) {
-            balls[i].pull(mouse.getX(), mouse.getY());
+            balls[i].pull(grid.localX(mouse.getX()),
+                grid.localY(mouse.getY()));
         }
     }
+    grid.update(mouse.getX(), mouse.getY());
 
     for (int i=0; i < balls.size(); ++i) {
         balls[i].update();
@@ -78,6 +91,6 @@ void Board::update() {
 void Board::blit(const Window& _window) const {
     //_window.blit(_window.getTexture(Textures::Board), sides);
     for (int i=0; i < balls.size(); ++i) {
-        balls[i].blit(_window);
+        balls[i].blit(_window, grid);
     }
 }

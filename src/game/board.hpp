@@ -13,10 +13,10 @@
 //
 class Board {
 private:
+    Grid grid;
     std::vector<Ball> balls;
     int pressed = 0;
     float lastPointX = 0, lastPointY = 0;
-    const SDL_FRect camera = {50, 50, 500, 500};
 
 public:
     Board();
@@ -24,6 +24,7 @@ public:
     void reset();
     void click(const Mouse _mouse);
     void unclick(const Mouse _mouse);
+    void scroll(float wheelY);
     void update();
     void blit(const Window& window) const;
 };

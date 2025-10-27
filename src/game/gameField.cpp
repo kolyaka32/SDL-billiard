@@ -46,13 +46,6 @@ const Save GameField::saveField() const {
     return Save{};
 }
 
-void GameField::tryClickSingle(const Mouse _mouse) {
-    /*if (currentField.isValid(_mouse) && currentField.getState() <= GameState::OpponentPlay) {
-        currentField.clickSingle(currentField.getPosition(_mouse));
-        checkEnd();
-    }*/
-}
-
 void GameField::clickCoop(const Mouse _mouse) {
     /*if (currentField.isValid(_mouse) && currentField.getState() <= GameState::OpponentPlay) {
         currentField.clickTwo(currentField.getPosition(_mouse));
@@ -65,32 +58,8 @@ void GameField::unclickCoop(const Mouse _mouse) {
     currentField.unclick(_mouse);
 }
 
-bool GameField::tryClickServerCurrent(const Mouse _mouse) {
-    /*if (currentField.isValid(_mouse) && currentField.getState() == GameState::CurrentPlay) {
-        return currentField.clickMultiplayerCurrent(currentField.getPosition(_mouse));
-        checkEnd();
-    }*/
-    return false;
-}
-
-bool GameField::tryClickClientCurrent(const Mouse _mouse) {
-    /*if (currentField.isValid(_mouse) && currentField.getState() == GameState::OpponentPlay) {
-        return currentField.clickMultiplayerCurrent(currentField.getPosition(_mouse));
-        checkEndInverted();
-    }*/
-    return false;
-}
-
-void GameField::clickServerOpponent(Uint8 _p) {
-    // No additional checks for correct internet connection
-    //currentField.clickMultiplayerOpponent({_p%currentField.width, _p/currentField.width});
-    //checkEnd();
-}
-
-void GameField::clickClientOpponent(Uint8 _p) {
-    // No additional checks for correct internet connection
-    //currentField.clickMultiplayerOpponent({_p%currentField.width, _p/currentField.width});
-    //checkEndInverted();
+void GameField::scroll(float wheel) {
+    currentField.scroll(wheel);
 }
 
 void GameField::update() {
