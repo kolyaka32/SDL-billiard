@@ -20,8 +20,8 @@ Board::~Board() {
 
 void Board::reset() {
     for (int i=0; i < balls.size(); ++i) {
-        balls[i].set(SDL_randf()*sides.w + sides.x,
-            SDL_randf()*sides.h + sides.y);
+        balls[i].set(SDL_randf()*400 + 50,
+            SDL_randf()*400 + 50);
     }
 }
 
@@ -65,13 +65,13 @@ void Board::update() {
             balls[i].checkCollision(balls[j]);
         }
     }
-    for (int i=0; i < balls.size(); ++i) {
+    /*for (int i=0; i < balls.size(); ++i) {
         balls[i].checkWalls(sides);
-    }
+    }*/
 }
 
 void Board::blit(const Window& _window) const {
-    _window.blit(_window.getTexture(Textures::Board), sides);
+    //_window.blit(_window.getTexture(Textures::Board), sides);
     for (int i=0; i < balls.size(); ++i) {
         balls[i].blit(_window);
     }

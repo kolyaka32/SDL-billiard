@@ -9,17 +9,7 @@
 
 GameCycle::GameCycle(Window& _window)
 : BaseCycle(_window),
-field(window),
-gameSaveButton(window, 0.88, 0.05, 0.08, Textures::SaveButton),
-gameMenuButton(window, 0.12, 0.05, 0.08, Textures::MenuButton),
-savedInfo(window, 0.5, 0.12, {"Game saved", "Игра сохранена", "Spiel gespeichert", "Гульня захавана"}),
-playersTurnsTexts {
-    {window, 0.5, 0.05, {"First player turn", "Ход первого игрока", "Der Zug des ersten Spielers", "Ход першага гульца"}},
-    {window, 0.5, 0.05, {"Second player turn", "Ход второго игрока", "Zug des zweiten Spielers", "Ход другога гульца"}}
-},
-firstWinText(window, 0.5, 0.05, {"First win", "Первый победил", "Der erste hat gewonnen", "Першы перамог"}, 1),
-secondWinText(window, 0.5, 0.05, {"Second win", "Второй победил", "Der zweite hat gewonnen", "Другі перамог"}, 1),
-nobodyWinText(window, 0.5, 0.05, {"Nobody win", "Ничья", "Unentschieden", "Чые"}, 1) {
+field(window) {
     if (!isRestarted()) {
         // Resetting field
         field.restart();
@@ -28,15 +18,55 @@ nobodyWinText(window, 0.5, 0.05, {"Nobody win", "Ничья", "Unentschieden", "
     music.startFading(Music::MainCalm);
 }
 
-void GameCycle::inputKeys(SDL_Keycode key) {
+bool GameCycle::inputMouseDown() {
+    if (BaseCycle::inputMouseDown()) {
+        return true;
+    }
+    // Normal turn
+    field.clickCoop(mouse);
+    return false;
+}
+
+void GameCycle::inputMouseUp() {
+    mouse.updatePos();
+    field.unclickCoop(mouse);
+    settings.unClick();
+}
+
+void GameCycle::inputMouseWheel(float _wheelY) {
+    BaseCycle::inputMouseWheel(_wheelY);
+}
+
+void GameCycle::inputKeys(SDL_Keycode _key) {
     // Quiting to menu
-    if (key == SDLK_Q) {
+    if (_key == SDLK_Q) {
         stop();
     }
+    if (_key == SDLK_ESCAPE) {
+        // Closing top open object
+        settings.activate();
+        return;
+    }
+    GameCycle::inputKeys(_key);
 }
 
 void GameCycle::update() {
-    savedInfo.update();
     BaseCycle::update();
     field.update();
+}
+
+void GameCycle::draw() const {
+    // Bliting background
+    window.setDrawColor(BLACK);
+    window.clear();
+
+    // Blitting field
+    field.blit();
+
+    // Drawing upper dashboard
+    exitButton.blit();
+    settings.blit();
+
+    // Bliting all to screen
+    window.render();
 }

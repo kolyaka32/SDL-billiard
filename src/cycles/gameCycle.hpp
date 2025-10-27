@@ -15,19 +15,13 @@ class GameCycle : public BaseCycle {
     // Active game part
     GameField field;
 
-    GUI::ImageButton gameSaveButton;
-    GUI::ImageButton gameMenuButton;
-    GUI::StaticText playersTurnsTexts[2];
-    GUI::InfoBox savedInfo;
-
-    // Ending options
-    GUI::HighlightedStaticText firstWinText;
-    GUI::HighlightedStaticText secondWinText;
-    GUI::HighlightedStaticText nobodyWinText;
-
     // New overrided cycle functions
-    void inputKeys(const SDL_Keycode key) override;
+    bool inputMouseDown() override;
+    void inputMouseUp() override;
+    void inputMouseWheel(float _wheelY) override;
+    void inputKeys(SDL_Keycode _key) override;
     void update() override;
+    void draw() const override;
 
  public:
     GameCycle(Window& _window);
