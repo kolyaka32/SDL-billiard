@@ -13,7 +13,7 @@
 //
 class Board {
 private:
-    Ball balls[4];
+    std::vector<Ball> balls;
     Ball* selected = 0;
     float lastPointX = 0, lastPointY = 0;
     const SDL_FRect sides = {50, 50, 400, 400};

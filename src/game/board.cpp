@@ -8,28 +8,32 @@
 
 Board::Board() {
     // Create first placement
+    for (int i=0; i < 8; ++i) {
+        balls.push_back(Ball());
+    }
     reset();
 }
 
 Board::~Board() {
-    
+    balls.clear();
 }
 
 void Board::reset() {
-    balls[0].set(100, 150);
-    balls[1].set(150, 100);
-    balls[2].set(200, 150);
-    balls[3].set(150, 200);
+    for (int i=0; i < balls.size(); ++i) {
+        balls[i].set(SDL_randf()*sides.w + sides.x,
+            SDL_randf()*sides.h + sides.y);
+    }
 }
 
 void Board::click(const Mouse _mouse) {
     // Finding nearest ball
     selected = nullptr;
-    for (int i=0; i < sizeof(balls)/sizeof(balls[0]); ++i) {
+    for (int i=0; i < balls.size(); ++i) {
         if (balls[i].isSelected(_mouse)) {
-            selected = balls + i;
+            selected = &balls[i];
             lastPointX = _mouse.getX();
             lastPointY = _mouse.getY();
+            return;
         }
     }
 }
@@ -42,20 +46,22 @@ void Board::unclick(const Mouse _mouse) {
 }
 
 void Board::update() {
-    for (int i=0; i < sizeof(balls)/sizeof(balls[0]); ++i) {
-        for (int j=1+i; j < sizeof(balls)/sizeof(balls[0]); ++j) {
+    for (int i=0; i < balls.size(); ++i) {
+        balls[i].update();
+    }
+    for (int i=0; i < balls.size(); ++i) {
+        for (int j=1+i; j < balls.size(); ++j) {
             balls[i].checkCollision(balls[j]);
         }
     }
-    for (int i=0; i < sizeof(balls)/sizeof(balls[0]); ++i) {
+    for (int i=0; i < balls.size(); ++i) {
         balls[i].checkWalls(sides);
-        balls[i].update();
     }
 }
 
 void Board::blit(const Window& _window) const {
     _window.blit(_window.getTexture(Textures::Board), sides);
-    for (int i=0; i < sizeof(balls)/sizeof(balls[0]); ++i) {
+    for (int i=0; i < balls.size(); ++i) {
         balls[i].blit(_window);
     }
 }
