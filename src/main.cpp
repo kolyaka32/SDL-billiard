@@ -44,7 +44,7 @@ int main(int argv, char **args) {
     #endif
 
     // Creating main window
-    Window window{500, 500, {"Billiard", "Бильярд", "T", "К"}};
+    Window window{600, 600, {"Billiard", "Бильярд", "T", "К"}};
 
     // Running menu
     CycleTemplate::runCycle<SelectCycle>(window);

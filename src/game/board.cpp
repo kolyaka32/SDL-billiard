@@ -8,7 +8,7 @@
 
 Board::Board() {
     // Create first placement
-    for (int i=0; i < 8; ++i) {
+    for (int i=0; i < 200; ++i) {
         balls.push_back(Ball());
     }
     reset();
@@ -27,7 +27,7 @@ void Board::reset() {
 
 void Board::click(const Mouse _mouse) {
     // Finding nearest ball
-    selected = nullptr;
+    /*selected = nullptr;
     for (int i=0; i < balls.size(); ++i) {
         if (balls[i].isSelected(_mouse)) {
             selected = &balls[i];
@@ -35,17 +35,28 @@ void Board::click(const Mouse _mouse) {
             lastPointY = _mouse.getY();
             return;
         }
-    }
+    }*/
+    pressed = true;
 }
 
 void Board::unclick(const Mouse _mouse) {
     // Launching selected ball
-    if (selected) {
+    /*if (selected) {
         selected->setSpeed(_mouse.getX() - lastPointX, _mouse.getY() - lastPointY);
-    }
+    }*/
+    pressed = false;
 }
 
 void Board::update() {
+    if (pressed) {
+        Mouse mouse{};
+        mouse.updatePos();
+
+        // Appling push to all
+        for (int i=0; i < balls.size(); ++i) {
+            balls[i].push(mouse.getX(), mouse.getY());
+        }
+    }
     for (int i=0; i < balls.size(); ++i) {
         balls[i].update();
     }

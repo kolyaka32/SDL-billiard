@@ -14,9 +14,9 @@
 class Board {
 private:
     std::vector<Ball> balls;
-    Ball* selected = 0;
+    bool pressed = false;
     float lastPointX = 0, lastPointY = 0;
-    const SDL_FRect sides = {50, 50, 400, 400};
+    const SDL_FRect sides = {50, 50, 500, 500};
 
 public:
     Board();

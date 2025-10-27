@@ -17,12 +17,18 @@ void Ball::checkCollision(Ball& ball) {
     float norMod = sqr(norx)+sqr(nory);
     float norm = SDL_sqrtf(norMod);
 
+    // Orthogonathing normal
+    norx /= norm;
+    nory /= norm;
+
+    // Gravity
+    ux -= G*norx/norMod;
+    uy -= G*nory/norMod;
+    ball.ux += G*norx/norMod;
+    ball.uy += G*nory/norMod;
+
     // Collisions
     if (norMod < sqr(diameter)) {
-        // Orthogonathing normal
-        norx /= norm;
-        nory /= norm;
-
         // Disconnecting objects for correct work
         dest.x += norx*(diameter-norm);
         dest.y += nory*(diameter-norm);
@@ -51,20 +57,50 @@ void Ball::checkCollision(Ball& ball) {
         ball.ux += (1-friction) * uxDelta;
         ball.uy += (1-friction) * uyDelta;
 
-        sounds.play(Sounds::Turn);
+        //sounds.play(Sounds::Turn);
     }
 }
 
 void Ball::set(float X, float Y) {
     dest.x = X;
     dest.y = Y;
-    ux = SDL_randf()*10;
-    uy = SDL_randf()*10;
+    ux =0;// SDL_randf()*10;
+    uy =0;// SDL_randf()*10;
 }
 
 void Ball::setSpeed(float _ux, float _uy) {
     ux = _ux / 10;
     uy = _uy / 10;
+}
+
+void Ball::pull(float _x, float _y) {
+    float norx = (dest.x-_x);
+    float nory = (dest.y-_y);
+    float norMod = sqr(norx)+sqr(nory);
+    float norm = SDL_sqrtf(norMod);
+    norx /= norm;
+    nory /= norm;
+
+    ux -= 10*G*norx/norMod;
+    uy -= 10*G*nory/norMod;
+}
+
+void Ball::push(float _x, float _y) {
+    float norx = (dest.x-_x);
+    float nory = (dest.y-_y);
+    float norMod = sqr(norx)+sqr(nory);
+    float norm = SDL_sqrtf(norMod);
+    norx /= norm;
+    nory /= norm;
+
+    if (norm < 1) {
+        ux += G*norm;
+        ux += G*norm;
+        return;
+    }
+
+    ux += 100*G*norx/norMod;
+    uy += 100*G*nory/norMod;
 }
 
 bool Ball::isSelected(const Mouse _mouse) {
