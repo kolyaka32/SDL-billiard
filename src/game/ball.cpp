@@ -81,8 +81,11 @@ void Ball::pull(float _x, float _y) {
     norx /= norm;
     nory /= norm;
 
-    ux -= 10*G*norx/norMod;
-    uy -= 10*G*nory/norMod;
+    if (norm < 1) {
+        return;
+    }
+    ux -= 100*G*norx/norMod;
+    uy -= 100*G*nory/norMod;
 }
 
 void Ball::push(float _x, float _y) {
@@ -94,11 +97,8 @@ void Ball::push(float _x, float _y) {
     nory /= norm;
 
     if (norm < 1) {
-        ux += G*norm;
-        ux += G*norm;
         return;
     }
-
     ux += 100*G*norx/norMod;
     uy += 100*G*nory/norMod;
 }

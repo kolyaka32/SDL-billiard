@@ -14,7 +14,7 @@
 class Board {
 private:
     std::vector<Ball> balls;
-    bool pressed = false;
+    int pressed = 0;
     float lastPointX = 0, lastPointY = 0;
     const SDL_FRect camera = {50, 50, 500, 500};
 

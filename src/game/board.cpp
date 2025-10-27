@@ -36,7 +36,6 @@ void Board::click(const Mouse _mouse) {
             return;
         }
     }*/
-    pressed = true;
 }
 
 void Board::unclick(const Mouse _mouse) {
@@ -44,19 +43,25 @@ void Board::unclick(const Mouse _mouse) {
     /*if (selected) {
         selected->setSpeed(_mouse.getX() - lastPointX, _mouse.getY() - lastPointY);
     }*/
-    pressed = false;
 }
 
 void Board::update() {
-    if (pressed) {
-        Mouse mouse{};
-        mouse.updatePos();
+    Mouse mouse{};
+    mouse.updatePos();
 
+    if (mouse.getState() & SDL_BUTTON_LMASK) {
         // Appling push to all
         for (int i=0; i < balls.size(); ++i) {
             balls[i].push(mouse.getX(), mouse.getY());
         }
     }
+    if (mouse.getState() & SDL_BUTTON_RMASK) {
+        // Appling pull to all
+        for (int i=0; i < balls.size(); ++i) {
+            balls[i].pull(mouse.getX(), mouse.getY());
+        }
+    }
+
     for (int i=0; i < balls.size(); ++i) {
         balls[i].update();
     }

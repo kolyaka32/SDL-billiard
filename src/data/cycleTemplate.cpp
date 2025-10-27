@@ -89,7 +89,7 @@ void CycleTemplate::update() {}
 
 // Getting input
 bool CycleTemplate::inputMouseDown() {
-   return false;
+    return false;
 }
 
 void CycleTemplate::inputMouseUp() {}
