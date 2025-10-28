@@ -61,11 +61,11 @@ void Ball::checkCollision(Ball& ball) {
     }
 }
 
-void Ball::set(float X, float Y) {
-    dest.x = X;
-    dest.y = Y;
-    ux =0;// SDL_randf()*10;
-    uy =0;// SDL_randf()*10;
+void Ball::set(SDL_FPoint _point) {
+    dest.x = _point.x;
+    dest.y = _point.y;
+    ux = 0;
+    uy = 0;
 }
 
 void Ball::setSpeed(float _ux, float _uy) {
@@ -73,9 +73,9 @@ void Ball::setSpeed(float _ux, float _uy) {
     uy = _uy / 10;
 }
 
-void Ball::pull(float _x, float _y) {
-    float norx = (dest.x-_x);
-    float nory = (dest.y-_y);
+void Ball::pull(SDL_FPoint _point) {
+    float norx = (dest.x-_point.x);
+    float nory = (dest.y-_point.y);
     float norMod = sqr(norx)+sqr(nory);
     float norm = SDL_sqrtf(norMod);
     norx /= norm;
@@ -88,10 +88,10 @@ void Ball::pull(float _x, float _y) {
     uy -= 100*G*nory/norMod;
 }
 
-void Ball::push(float _x, float _y) {
-    float norx = (dest.x-_x);
-    float nory = (dest.y-_y);
-    float norMod = sqr(norx)+sqr(nory);
+void Ball::push(SDL_FPoint _point) {
+    float norx = (dest.x-_point.x);
+    float nory = (dest.y-_point.y);
+    float norMod = sqr(norx) + sqr(nory);
     float norm = SDL_sqrtf(norMod);
     norx /= norm;
     nory /= norm;
@@ -103,9 +103,9 @@ void Ball::push(float _x, float _y) {
     uy += 100*G*nory/norMod;
 }
 
-bool Ball::isSelected(const Mouse _mouse) {
-    return (sqr(_mouse.getX() - dest.x - dest.w/2) + 
-        sqr(_mouse.getY() - dest.y - dest.h/2) < diameter*diameter/4);
+bool Ball::isSelected(const SDL_FPoint _point) const {
+    return (sqr(_point.x - dest.x - dest.w/2) + 
+        sqr(_point.y - dest.y - dest.h/2) < diameter*diameter/4);
 }
 
 void Ball::checkWalls(const SDL_FRect _rect) {
@@ -137,8 +137,6 @@ void Ball::update() {
     dest.y += uy;
 }
 
-
 void Ball::blit(const Window& _window, const Grid _grid) const {
-    _window.blit(_window.getTexture(Textures::Ball),
-        _grid.absoluteRect(dest));
+    _window.blit(_window.getTexture(Textures::Ball), _grid.absolute(dest));
 }

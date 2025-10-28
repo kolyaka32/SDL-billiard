@@ -20,20 +20,23 @@ Board::~Board() {
 
 void Board::reset() {
     for (int i=0; i < balls.size(); ++i) {
-        balls[i].set(SDL_randf()*400 + 50,
-            SDL_randf()*400 + 50);
+        balls[i].set(grid.absolute(SDL_FPoint{SDL_randf()*sides.w + sides.x,
+            SDL_randf()*sides.h + sides.y}));
     }
 }
 
 void Board::click(const Mouse _mouse) {
     // Finding nearest ball
     selected = nullptr;
-    for (int i=0; i < balls.size(); ++i) {
-        if (balls[i].isSelected(_mouse)) {
-            selected = &balls[i];
-            lastPointX = _mouse.getX();
-            lastPointY = _mouse.getY();
-            return;
+    SDL_FPoint current = grid.local(_mouse);
+    if (_mouse.getState() & SDL_BUTTON_LMASK) {
+        for (int i=0; i < balls.size(); ++i) {
+            if (balls[i].isSelected(current)) {
+                selected = &balls[i];
+                lastPoint = current;
+                logAdditional("Selected %d", i);
+                return;
+            }
         }
     }
     if (_mouse.getState() & SDL_BUTTON_MMASK) {
@@ -44,7 +47,8 @@ void Board::click(const Mouse _mouse) {
 void Board::unclick(const Mouse _mouse) {
     // Launching selected ball
     if (selected) {
-        selected->setSpeed(_mouse.getX() - lastPointX, _mouse.getY() - lastPointY);
+        SDL_FPoint current = grid.local(_mouse);
+        selected->setSpeed(current.x - lastPoint.x, current.y - lastPoint.y);
     }
     grid.unClick(_mouse.getX(), _mouse.getY());
 }
@@ -89,7 +93,7 @@ void Board::update() {
 }
 
 void Board::blit(const Window& _window) const {
-    _window.blit(_window.getTexture(Textures::Board), grid.absoluteRect(sides));
+    _window.blit(_window.getTexture(Textures::Board), grid.absolute(sides));
     for (int i=0; i < balls.size(); ++i) {
         balls[i].blit(_window, grid);
     }

@@ -5,23 +5,19 @@
 
 #pragma once
 
-#include "../data/window.hpp"
-
-// Datatypes for better work with coordinats
-typedef float local;
-typedef float absolute;
+#include "../data/app.hpp"
 
 
 //
 class Grid {
 private:
     // Parameters of grid system
-    absolute centerX, centerY;
+    float centerX, centerY;
     float scale;
 
     // Parameters of movement
     bool capture;
-    absolute captureX, captureY;
+    float captureX, captureY;
 
 public:
     Grid();
@@ -32,9 +28,13 @@ public:
     void update(float mouseX, float mouseY);
 
     // Work with local and absolute coordinats
-    absolute absoluteX(local localeX) const;
-    absolute absoluteY(local localeY) const;
-    SDL_FRect absoluteRect(SDL_FRect locale) const;
-    local localX(absolute X) const;
-    local localY(absolute Y) const;
+    float absoluteX(float localX) const;
+    float absoluteY(float localY) const;
+    SDL_FPoint absolute(SDL_FPoint local) const;
+    SDL_FRect absolute(SDL_FRect local) const;
+    float localX(float X) const;
+    float localY(float Y) const;
+    SDL_FPoint local(SDL_FPoint absolute) const;
+    SDL_FPoint local(const Mouse mouse) const;
+    SDL_FRect local(SDL_FRect absolute) const;
 };

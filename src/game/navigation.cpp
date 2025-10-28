@@ -20,7 +20,7 @@ void Grid::update(float mouseX, float mouseY) {
         // Keeping captured point at it place
         centerX = (mouseX) - captureX*scale;
         centerY = (mouseY) - captureY*scale;
-        SDL_Log("Press at %f : %f, get at %f : %f", mouseX, mouseY, centerX, centerY);
+        logAdditional("Press at %f : %f, get at %f : %f", mouseX, mouseY, centerX, centerY);
     }
 }
 
@@ -28,7 +28,7 @@ void Grid::click(float mouseX, float mouseY) {
     capture = true;
     captureX = (mouseX - centerX)/scale;
     captureY = (mouseY - centerY)/scale;
-    //SDL_Log("Press at %f : %f, get at %f : %f", mouseX, mouseY, captureX, captureY);
+    logAdditional("Press at %f : %f, get at %f : %f", mouseX, mouseY, captureX, captureY);
 }
 
 void Grid::unClick(float mouseX, float mouseY) {
@@ -48,24 +48,48 @@ void Grid::zoom(float mouseX, float mouseY, float wheelY) {
     centerY -= mouseY*scale;
 }
 
-// Local-absolute transformations
-absolute Grid::absoluteX(local _x) const {
+// float-float transformations
+float Grid::absoluteX(float _x) const {
     return _x * scale + centerX;
 }
 
-absolute Grid::absoluteY(local _y) const {
+float Grid::absoluteY(float _y) const {
     return _y * scale + centerY;
 }
 
-SDL_FRect Grid::absoluteRect(SDL_FRect _local) const {
-    return SDL_FRect{absoluteX(_local.x), absoluteY(_local.y),
-        _local.w*scale, _local.h*scale};
+SDL_FPoint Grid::absolute(const SDL_FPoint _local) const {
+    return SDL_FPoint{absoluteX(_local.x),
+        absoluteY(_local.y)};
 }
 
-local Grid::localX(absolute _x) const {
+SDL_FRect Grid::absolute(SDL_FRect _local) const {
+    return SDL_FRect{absoluteX(_local.x),
+        absoluteY(_local.y),
+        _local.w*scale,
+        _local.h*scale};
+}
+
+float Grid::localX(float _x) const {
     return (_x - centerX) / scale;
 }
 
-local Grid::localY(absolute _y) const {
+float Grid::localY(float _y) const {
     return (_y - centerY) / scale;
+}
+
+SDL_FPoint Grid::local(SDL_FPoint _absolute) const {
+    return SDL_FPoint{localX(_absolute.x),
+        localX(_absolute.y)};
+}
+
+SDL_FPoint Grid::local(const Mouse _mouse) const {
+    return SDL_FPoint{localX(_mouse.getX()),
+        localY(_mouse.getY())};
+}
+
+SDL_FRect Grid::local(SDL_FRect _absolute) const {
+    return SDL_FRect{localX(_absolute.x),
+        localY(_absolute.y),
+        _absolute.w/scale,
+        _absolute.h/scale};
 }

@@ -21,13 +21,13 @@ class Ball {
 
  public:
     Ball();
-    void set(float X, float Y);
+    void set(SDL_FPoint point);
     void setSpeed(float ux, float uy);
-    void pull(float x, float y);
-    void push(float x, float y);
-    bool isSelected(const Mouse mouse);
+    void pull(SDL_FPoint point);
+    void push(SDL_FPoint point);
+    bool isSelected(SDL_FPoint point) const;
     void update();
-    void checkWalls(const SDL_FRect rect);
+    void checkWalls(SDL_FRect rect);
     void checkCollision(Ball& ball);
     void blit(const Window& window, const Grid grid) const;
 };
