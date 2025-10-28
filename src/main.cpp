@@ -25,11 +25,11 @@ const DataLoader dataLoader{};
 #endif
 
 #if (USE_SDL_MIXER) && (PRELOAD_MUSIC)
-SoundsData sounds{};
+MusicData music{};
 #endif
 
 #if (USE_SDL_MIXER) && (PRELOAD_SOUNDS)
-MusicData music{};
+SoundsData sounds{};
 #endif
 
 #if (USE_SDL_NET)

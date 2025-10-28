@@ -13,7 +13,7 @@ SelectCycle::SelectCycle(Window& _window)
 titleText(window, 0.5, 0.15, {"Billiard", "Бильярд", "Tic-tac-toe", "Крыжыкі нулікі"}, 3, Height::Title),
 twoPlayerButton(window, 0.5, 0.5, {"Two players", "Два игрока", "Zwei Spieler", "Два гульца"}) {
     // Starting menu song (if wasn't started)
-    music.start(Music::Menu);
+    // music.start(Music::Menu);
     logAdditional("Start select cycle");
 }
 

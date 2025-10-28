@@ -57,7 +57,7 @@ void Board::scroll(float _wheelY) {
     Mouse mouse{};
     mouse.updatePos();
 
-    grid.zoom(mouse.getX(), mouse.getY(), _wheelY);
+    grid.zoom(_wheelY, mouse);
 }
 
 void Board::update() {

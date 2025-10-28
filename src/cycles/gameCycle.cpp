@@ -14,8 +14,6 @@ field(window) {
         // Resetting field
         field.restart();
     }
-    // Starting main song (if wasn't started)
-    music.startFading(Music::MainCalm);
 }
 
 bool GameCycle::inputMouseDown() {
@@ -23,13 +21,13 @@ bool GameCycle::inputMouseDown() {
         return true;
     }
     // Normal turn
-    field.clickCoop(mouse);
+    field.click(mouse);
     return false;
 }
 
 void GameCycle::inputMouseUp() {
     mouse.updatePos();
-    field.unclickCoop(mouse);
+    field.unclick(mouse);
     settings.unClick();
 }
 

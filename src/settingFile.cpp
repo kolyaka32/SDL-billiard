@@ -13,7 +13,6 @@
 // Files to setup
 #include "data/languages.hpp"
 #include "game/gameField.hpp"
-#include "game/menu/savedFields.hpp"
 
 
 // Data, load from setting file
@@ -39,8 +38,6 @@ void InitFile::loadSettings() {
             } else if (lang == "belarusian") {
                 LanguagedText::setLanguage(Language::Bellarusian);
             }
-        } else if (parameter == "music") {
-            music.setVolume(getValue(currentLine));
         } else if (parameter == "sounds") {
             sounds.setVolume(getValue(currentLine));
         }
@@ -81,7 +78,6 @@ void InitFile::saveSettings() {
     }
 
     // Writing music and sounds volumes
-    outSettings << "music = " << music.getVolume() << "\n";
     outSettings << "sounds = " << sounds.getVolume() << "\n";
 }
 

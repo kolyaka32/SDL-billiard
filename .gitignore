@@ -7,8 +7,8 @@
 build/
 
 # Adding create-archieve files in build folder
-!build/create-data-file.sh
-!build/create-data-file.bat
+!build/create-archieve.sh
+!build/create-archieve.bat
 
 # Old include libraries
 i686-w64-mingw32/

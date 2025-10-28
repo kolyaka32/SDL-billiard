@@ -24,7 +24,7 @@ public:
 
     void click(float mouseX, float mouseY);
     void unClick(float mouseX, float mouseY);
-    void zoom(float mouseX, float mouseY, float wheelY);
+    void zoom(float wheelY, const Mouse mouse);
     void update(float mouseX, float mouseY);
 
     // Work with local and absolute coordinats

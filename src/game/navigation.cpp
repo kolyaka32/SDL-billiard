@@ -4,8 +4,6 @@
  */
 
 #include "navigation.hpp"
-#include "../define.hpp"
-#include "../data/macroses.hpp"
 
 
 Grid::Grid() {
@@ -18,8 +16,8 @@ Grid::Grid() {
 void Grid::update(float mouseX, float mouseY) {
     if (capture) {
         // Keeping captured point at it place
-        centerX = (mouseX) - captureX*scale;
-        centerY = (mouseY) - captureY*scale;
+        centerX = mouseX - captureX*scale;
+        centerY = mouseY - captureY*scale;
         logAdditional("Press at %f : %f, get at %f : %f", mouseX, mouseY, centerX, centerY);
     }
 }
@@ -35,20 +33,23 @@ void Grid::unClick(float mouseX, float mouseY) {
     capture = false;
 }
 
-void Grid::zoom(float mouseX, float mouseY, float wheelY) {
-    centerX += mouseX*scale;
-    centerY += mouseY*scale;
+void Grid::zoom(float _wheelY, const Mouse _mouse) {
+    centerX = (_mouse.getX()-centerX) / scale;
+    centerY = (_mouse.getY()-centerY) / scale;
 
-    scale *= SDL_powf(1.5, wheelY);
+    logAdditional("Scaling center: %f,%f scale:%f", centerX, centerY, scale);
+
+    scale *= SDL_powf(1.5, _wheelY);
 
     setMin(scale, 0.1f);
     setMax(scale, 20.0f);
 
-    centerX -= mouseX*scale;
-    centerY -= mouseY*scale;
+    centerX = _mouse.getX() - centerX * scale;
+    centerY = _mouse.getY() - centerY * scale;
+
+    logAdditional("New center: %f,%f scale:%f", centerX, centerY, scale);
 }
 
-// float-float transformations
 float Grid::absoluteX(float _x) const {
     return _x * scale + centerX;
 }
