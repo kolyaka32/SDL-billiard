@@ -15,8 +15,10 @@ class Board {
 private:
     Grid grid;
     std::vector<Ball> balls;
-    int pressed = 0;
+    //int pressed = 0;
+    Ball* selected = nullptr;
     float lastPointX = 0, lastPointY = 0;
+    SDL_FRect sides = {50, 50, 400, 400};
 
 public:
     Board();

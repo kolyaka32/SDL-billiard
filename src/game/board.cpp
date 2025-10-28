@@ -8,7 +8,7 @@
 
 Board::Board() {
     // Create first placement
-    for (int i=0; i < 200; ++i) {
+    for (int i=0; i < 40; ++i) {
         balls.push_back(Ball());
     }
     reset();
@@ -27,7 +27,7 @@ void Board::reset() {
 
 void Board::click(const Mouse _mouse) {
     // Finding nearest ball
-    /*selected = nullptr;
+    selected = nullptr;
     for (int i=0; i < balls.size(); ++i) {
         if (balls[i].isSelected(_mouse)) {
             selected = &balls[i];
@@ -35,7 +35,7 @@ void Board::click(const Mouse _mouse) {
             lastPointY = _mouse.getY();
             return;
         }
-    }*/
+    }
     if (_mouse.getState() & SDL_BUTTON_MMASK) {
         grid.click(_mouse.getX(), _mouse.getY());
     }
@@ -43,9 +43,9 @@ void Board::click(const Mouse _mouse) {
 
 void Board::unclick(const Mouse _mouse) {
     // Launching selected ball
-    /*if (selected) {
+    if (selected) {
         selected->setSpeed(_mouse.getX() - lastPointX, _mouse.getY() - lastPointY);
-    }*/
+    }
     grid.unClick(_mouse.getX(), _mouse.getY());
 }
 
@@ -59,7 +59,7 @@ void Board::scroll(float _wheelY) {
 void Board::update() {
     Mouse mouse{};
     mouse.updatePos();
-    if (mouse.getState() & SDL_BUTTON_LMASK) {
+    /*if (mouse.getState() & SDL_BUTTON_LMASK) {
         // Appling push to all
         for (int i=0; i < balls.size(); ++i) {
             balls[i].push(grid.localX(mouse.getX()),
@@ -72,7 +72,7 @@ void Board::update() {
             balls[i].pull(grid.localX(mouse.getX()),
                 grid.localY(mouse.getY()));
         }
-    }
+    }*/
     grid.update(mouse.getX(), mouse.getY());
 
     for (int i=0; i < balls.size(); ++i) {
@@ -83,13 +83,13 @@ void Board::update() {
             balls[i].checkCollision(balls[j]);
         }
     }
-    /*for (int i=0; i < balls.size(); ++i) {
+    for (int i=0; i < balls.size(); ++i) {
         balls[i].checkWalls(sides);
-    }*/
+    }
 }
 
 void Board::blit(const Window& _window) const {
-    //_window.blit(_window.getTexture(Textures::Board), sides);
+    _window.blit(_window.getTexture(Textures::Board), grid.absoluteRect(sides));
     for (int i=0; i < balls.size(); ++i) {
         balls[i].blit(_window, grid);
     }

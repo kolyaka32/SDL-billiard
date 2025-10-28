@@ -22,10 +22,10 @@ void Ball::checkCollision(Ball& ball) {
     nory /= norm;
 
     // Gravity
-    ux -= G*norx/norMod;
+    /*ux -= G*norx/norMod;
     uy -= G*nory/norMod;
     ball.ux += G*norx/norMod;
-    ball.uy += G*nory/norMod;
+    ball.uy += G*nory/norMod;*/
 
     // Collisions
     if (norMod < sqr(diameter)) {
@@ -57,7 +57,7 @@ void Ball::checkCollision(Ball& ball) {
         ball.ux += (1-friction) * uxDelta;
         ball.uy += (1-friction) * uyDelta;
 
-        //sounds.play(Sounds::Turn);
+        sounds.play(Sounds::Turn);
     }
 }
 

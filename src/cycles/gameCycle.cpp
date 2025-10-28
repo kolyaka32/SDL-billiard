@@ -48,7 +48,6 @@ void GameCycle::inputKeys(SDL_Keycode _key) {
         settings.activate();
         return;
     }
-    GameCycle::inputKeys(_key);
 }
 
 void GameCycle::update() {

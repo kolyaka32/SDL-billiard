@@ -12,7 +12,7 @@
 //
 class Ball {
  private:
-    const float diameter = 10.0;
+    const float diameter = 20.0;
     const float friction = 0;
     const float speed = 1;
     const float G = 1;
