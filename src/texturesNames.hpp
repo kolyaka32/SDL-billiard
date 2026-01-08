@@ -19,8 +19,6 @@ enum class Textures : unsigned {
     SliderButton,
     SliderLine,
     QuitButton,
-    MenuButton,
-    SaveButton,
     SettingsButton,
 
     // Base flags in settings

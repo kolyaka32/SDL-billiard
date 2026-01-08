@@ -15,14 +15,6 @@ const char* soundsFilesNames[unsigned(Sounds::Count)] = {
     // Game part
     "snd/turn.wav",
     "snd/reset.wav",
-    "snd/win.wav",
-    "snd/loose.wav",
-
-    // Internet connection part
-    "snd/disconnect.wav",
-
-    // Screamer
-    "snd/laugh.wav",
 };
 
 #endif  // (USE_SDL_MIXER) && (PRELOAD_SOUNDS)

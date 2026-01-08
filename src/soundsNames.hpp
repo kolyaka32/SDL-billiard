@@ -17,14 +17,6 @@ enum class Sounds : unsigned {
     // Game part
     Turn,
     Reset,
-    Win,
-    Loose,
-
-    // Internet connection part
-    Disconnect,
-
-    // Screamer
-    Screamer,
 
     // Global counter of all loaded sounds
     Count,
