@@ -10,7 +10,7 @@
 
 //
 class Grid {
-private:
+ private:
     // Parameters of grid system
     float centerX, centerY;
     float scale;
@@ -19,7 +19,7 @@ private:
     bool capture;
     float captureX, captureY;
 
-public:
+ public:
     Grid();
 
     void click(float mouseX, float mouseY);

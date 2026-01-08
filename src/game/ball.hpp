@@ -8,13 +8,15 @@
 #include "../data/app.hpp"
 #include "navigation.hpp"
 
+#define BILLIARD true
+
 
 //
 class Ball {
  private:
     const float diameter = 20.0;
     const float friction = 0;
-    const float speed = 1;
+    const float speed = 0.99;
     const float G = 1;
     SDL_FRect dest;
     float ux = 0.0, uy = 0.0;

@@ -29,7 +29,7 @@ void Grid::click(float mouseX, float mouseY) {
     logAdditional("Press at %f : %f, get at %f : %f", mouseX, mouseY, captureX, captureY);
 }
 
-void Grid::unClick(float mouseX, float mouseY) {
+void Grid::unClick(float _mouseX, float _mouseY) {
     capture = false;
 }
 

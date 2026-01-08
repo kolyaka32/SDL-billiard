@@ -8,7 +8,7 @@
 
 Board::Board() {
     // Create first placement
-    for (int i=0; i < 40; ++i) {
+    for (int i=0; i < count; ++i) {
         balls.push_back(Ball());
     }
     reset();
@@ -27,6 +27,7 @@ void Board::reset() {
 
 void Board::click(const Mouse _mouse) {
     // Finding nearest ball
+    #if (BILLIARD)
     selected = nullptr;
     SDL_FPoint current = grid.local(_mouse);
     if (_mouse.getState() & SDL_BUTTON_LMASK) {
@@ -39,6 +40,7 @@ void Board::click(const Mouse _mouse) {
             }
         }
     }
+    #endif
     if (_mouse.getState() & SDL_BUTTON_MMASK) {
         grid.click(_mouse.getX(), _mouse.getY());
     }
@@ -46,10 +48,12 @@ void Board::click(const Mouse _mouse) {
 
 void Board::unclick(const Mouse _mouse) {
     // Launching selected ball
+    #if (BILLIARD)
     if (selected) {
         SDL_FPoint current = grid.local(_mouse);
         selected->setSpeed(current.x - lastPoint.x, current.y - lastPoint.y);
     }
+    #endif
     grid.unClick(_mouse.getX(), _mouse.getY());
 }
 
@@ -60,40 +64,57 @@ void Board::scroll(float _wheelY) {
     grid.zoom(_wheelY, mouse);
 }
 
-void Board::update() {
+void Board::applyInteraction() {
     Mouse mouse{};
     mouse.updatePos();
-    /*if (mouse.getState() & SDL_BUTTON_LMASK) {
+    #if (BILLIARD)
+    for (int i=0; i < balls.size(); ++i) {
+        balls[i].checkWalls(sides);
+    }
+    #else
+    if (mouse.getState() & SDL_BUTTON_LMASK) {
         // Appling push to all
         for (int i=0; i < balls.size(); ++i) {
-            balls[i].push(grid.localX(mouse.getX()),
-                grid.localY(mouse.getY()));
+            balls[i].push(grid.local(mouse));
         }
     }
     if (mouse.getState() & SDL_BUTTON_RMASK) {
         // Appling pull to all
         for (int i=0; i < balls.size(); ++i) {
-            balls[i].pull(grid.localX(mouse.getX()),
-                grid.localY(mouse.getY()));
+            balls[i].pull(grid.local(mouse));
         }
-    }*/
-    grid.update(mouse.getX(), mouse.getY());
-
-    for (int i=0; i < balls.size(); ++i) {
-        balls[i].update();
     }
+    #endif
+    grid.update(mouse.getX(), mouse.getY());
+}
+
+void Board::checkCollision() {
     for (int i=0; i < balls.size(); ++i) {
         for (int j=1+i; j < balls.size(); ++j) {
             balls[i].checkCollision(balls[j]);
         }
     }
+}
+
+void Board::updatePositions() {
     for (int i=0; i < balls.size(); ++i) {
-        balls[i].checkWalls(sides);
+        balls[i].update();
     }
 }
 
+void Board::update() {
+    applyInteraction();
+
+    for (int i=0; i < 5; ++i) {
+        checkCollision();
+    }
+    updatePositions();
+}
+
 void Board::blit(const Window& _window) const {
+    #if (BILLIARD)
     _window.blit(_window.getTexture(Textures::Board), grid.absolute(sides));
+    #endif
     for (int i=0; i < balls.size(); ++i) {
         balls[i].blit(_window, grid);
     }

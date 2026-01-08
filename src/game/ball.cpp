@@ -22,10 +22,12 @@ void Ball::checkCollision(Ball& ball) {
     nory /= norm;
 
     // Gravity
-    /*ux -= G*norx/norMod;
+    #if (!BILLIARD)
+    ux -= G*norx/norMod;
     uy -= G*nory/norMod;
     ball.ux += G*norx/norMod;
-    ball.uy += G*nory/norMod;*/
+    ball.uy += G*nory/norMod;
+    #endif
 
     // Collisions
     if (norMod < sqr(diameter)) {
@@ -36,6 +38,7 @@ void Ball::checkCollision(Ball& ball) {
         ball.dest.y -= nory*(diameter-norm);
 
         // Current ball
+        //#if (BILLIARD)
         float scalar1 = norx*ux + nory*uy;
         float uxProj1 = scalar1*norx;
         float uyProj1 = scalar1*nory;
@@ -56,6 +59,7 @@ void Ball::checkCollision(Ball& ball) {
         uy += (1-friction) * uyDelta;
         ball.ux += (1-friction) * uxDelta;
         ball.uy += (1-friction) * uyDelta;
+        //#endif
 
         sounds.play(Sounds::Turn);
     }
@@ -84,8 +88,8 @@ void Ball::pull(SDL_FPoint _point) {
     if (norm < 1) {
         return;
     }
-    ux -= 100*G*norx/norMod;
-    uy -= 100*G*nory/norMod;
+    ux -= 10000*norx/norMod;
+    uy -= 10000*nory/norMod;
 }
 
 void Ball::push(SDL_FPoint _point) {
@@ -99,8 +103,8 @@ void Ball::push(SDL_FPoint _point) {
     if (norm < 1) {
         return;
     }
-    ux += 100*G*norx/norMod;
-    uy += 100*G*nory/norMod;
+    ux += 1000*norx/norMod;
+    uy += 1000*nory/norMod;
 }
 
 bool Ball::isSelected(const SDL_FPoint _point) const {
@@ -130,8 +134,8 @@ void Ball::checkWalls(const SDL_FRect _rect) {
 }
 
 void Ball::update() {
-    ux *= speed;
-    uy *= speed;
+    //ux *= speed;
+    //uy *= speed;
 
     dest.x += ux;
     dest.y += uy;
