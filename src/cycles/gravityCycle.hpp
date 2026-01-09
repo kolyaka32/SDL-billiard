@@ -6,14 +6,14 @@
 #pragma once
 
 #include "baseCycle.hpp"
-#include "../game/gameField.hpp"
+#include "../game/board.hpp"
 
 
-// Cycle with game template
-class GameCycle : public BaseCycle {
+// Cycle with game with gravity
+class GravityCycle : public BaseCycle {
  protected:
     // Active game part
-    GameField field;
+    Board field;
 
     // New overrided cycle functions
     bool inputMouseDown() override;
@@ -24,5 +24,5 @@ class GameCycle : public BaseCycle {
     void draw() const override;
 
  public:
-    GameCycle(Window& _window);
+    GravityCycle(Window& _window);
 };

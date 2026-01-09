@@ -8,8 +8,6 @@
 #include "../data/app.hpp"
 #include "navigation.hpp"
 
-#define BILLIARD true
-
 
 //
 class Ball {
@@ -30,6 +28,7 @@ class Ball {
     bool isSelected(SDL_FPoint point) const;
     void update();
     void checkWalls(SDL_FRect rect);
-    void checkCollision(Ball& ball);
+    void checkCollisionBilliard(Ball& ball);
+    void checkCollisionGravity(Ball& ball);
     void blit(const Window& window, const Grid grid) const;
 };

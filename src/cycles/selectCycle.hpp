@@ -12,7 +12,8 @@
 class SelectCycle : public BaseCycle {
  private:
     GUI::HighlightedStaticText titleText;
-    GUI::TextButton twoPlayerButton;
+    GUI::TextButton billiardButton;
+    GUI::TextButton gravityButton;
 
     // New overrided cycle functions
     bool inputMouseDown() override;
