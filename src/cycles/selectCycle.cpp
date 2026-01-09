@@ -4,14 +4,16 @@
  */
 
 #include "selectCycle.hpp"
-#include "gameCycle.hpp"
+#include "billiardCycle.hpp"
+#include "gravityCycle.hpp"
 
 
 // Starting basic template with main theme
 SelectCycle::SelectCycle(Window& _window)
 : BaseCycle(_window),
-titleText(window, 0.5, 0.15, {"Billiard", "Бильярд", "Tic-tac-toe", "Крыжыкі нулікі"}, 3, Height::Title),
-twoPlayerButton(window, 0.5, 0.5, {"Two players", "Два игрока", "Zwei Spieler", "Два гульца"}) {
+titleText(window, 0.5, 0.15, {"Billiard", "Бильярд", "Billardkugel", "Більярд"}, 3, Height::Title),
+billiardButton(window, 0.5, 0.4, {"Billiard mode", "Режим бильярда", "Billard-Modus", "Рэжым більярда"}),
+gravityButton(window, 0.5, 0.6, {"Gravity mode", "Режим гравитации", "Schwerkraft-Modus", "Рэжым гравітацыі"}) {
     // Starting menu song (if wasn't started)
     // music.start(Music::Menu);
     logAdditional("Start select cycle");
@@ -22,8 +24,12 @@ bool SelectCycle::inputMouseDown() {
     if (settings.click(mouse)) {
         return true;
     }
-    if (twoPlayerButton.in(mouse)) {
-        runCycle<GameCycle>(window);
+    if (billiardButton.in(mouse)) {
+        runCycle<BilliardCycle>(window);
+        return true;
+    }
+    if (gravityButton.in(mouse)) {
+        runCycle<GravityCycle>(window);
         return true;
     }
     return false;
@@ -50,10 +56,8 @@ void SelectCycle::draw() const {
     titleText.blit();
 
     // Blitting start buttons
-    //singleplayerButton.blit();
-    twoPlayerButton.blit();
-    //serverButton.blit();
-    //connectButton.blit();
+    billiardButton.blit();
+    gravityButton.blit();
 
     // Settings menu
     settings.blit();

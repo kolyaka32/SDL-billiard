@@ -6,7 +6,6 @@
 #include "data/preloaded/loader/loader.hpp"
 #include "data/libraries.hpp"
 #include "data/initFile.hpp"
-#include "game/gameField.hpp"      // Get window width and height
 #include "cycles/selectCycle.hpp"  // Start game cycle
 #include "internet/internet.hpp"
 

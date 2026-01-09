@@ -8,8 +8,6 @@
 #include "../data/app.hpp"
 #include "navigation.hpp"
 
-#define BILLIARD true
-
 
 //
 class Ball {
