@@ -56,7 +56,7 @@ void Board::clickBilliard(const Mouse _mouse) {
     selected = nullptr;
     SDL_FPoint current = grid.local(_mouse);
     if (_mouse.getState() & SDL_BUTTON_LMASK) {
-        for (int i=0; i < balls.size(); ++i) {
+        for (int i=0; i < count; ++i) {
             if (balls[i].isSelected(current)) {
                 selected = &balls[i];
                 lastPoint = current;
@@ -81,6 +81,14 @@ void Board::checkWallsCollisions() {
     }
 }
 
+void Board::checkCollisionBilliard() {
+    for (int i=0; i < count; ++i) {
+        for (int j=1+i; j < count; ++j) {
+            balls[i].checkCollisionBilliard(balls[j]);
+        }
+    }
+}
+
 void Board::blitBoard(const Window& _window) const {
     _window.blit(_window.getTexture(Textures::Board), grid.absolute(sides));
 }
@@ -89,35 +97,35 @@ void Board::blitBoard(const Window& _window) const {
 void Board::applyGravity(const Mouse _mouse) {
     if (_mouse.getState() & SDL_BUTTON_LMASK) {
         // Appling push to all
-        for (int i=0; i < balls.size(); ++i) {
+        for (int i=0; i < count; ++i) {
             balls[i].push(grid.local(_mouse));
         }
     }
     if (_mouse.getState() & SDL_BUTTON_RMASK) {
         // Appling pull to all
-        for (int i=0; i < balls.size(); ++i) {
+        for (int i=0; i < count; ++i) {
             balls[i].pull(grid.local(_mouse));
         }
     }
 }
 
-
-void Board::checkCollision() {
-    for (int i=0; i < balls.size(); ++i) {
-        for (int j=1+i; j < balls.size(); ++j) {
-            balls[i].checkCollision(balls[j]);
+void Board::checkCollisionGravity() {
+    for (int i=0; i < count; ++i) {
+        for (int j=1+i; j < count; ++j) {
+            balls[i].checkCollisionGravity(balls[j]);
         }
     }
 }
 
+
 void Board::updatePositions() {
-    for (int i=0; i < balls.size(); ++i) {
+    for (int i=0; i < count; ++i) {
         balls[i].update();
     }
 }
 
 void Board::blitBalls(const Window& _window) const {
-    for (int i=0; i < balls.size(); ++i) {
+    for (int i=0; i < count; ++i) {
         balls[i].blit(_window, grid);
     }
 }

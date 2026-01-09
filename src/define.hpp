@@ -16,7 +16,7 @@
 #define USE_SDL_NET          false  // Library for internet connection by UDP/TCP
 #define USE_LIBZIP           true   // Library for compress data to zip archives
 // Use setting file for store data between seccions  
-#define USE_SETTING_FILE     false
+#define USE_SETTING_FILE     true
 // Preloaded GFX (could be created runtime)
 #define PRELOAD_TEXTURES     true   // Preload textures
 #define PRELOAD_ANIMATIONS   false  // Preload GIF animaions

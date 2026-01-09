@@ -11,7 +11,53 @@ Ball::Ball()
 ux(0.0),
 uy(0.0) {}
 
-void Ball::checkCollision(Ball& ball) {
+void Ball::checkCollisionBilliard(Ball& ball) {
+    float norx = (dest.x-ball.dest.x);
+    float nory = (dest.y-ball.dest.y);
+    float norMod = sqr(norx)+sqr(nory);
+    float norm = SDL_sqrtf(norMod);
+
+    // Orthogonathing normal
+    norx /= norm;
+    nory /= norm;
+
+    // Collisions
+    if (norMod < sqr(diameter)) {
+        // Disconnecting objects for correct work
+        dest.x += norx*(diameter-norm);
+        dest.y += nory*(diameter-norm);
+        ball.dest.x -= norx*(diameter-norm);
+        ball.dest.y -= nory*(diameter-norm);
+
+        // Current ball
+        //#if (BILLIARD)
+        float scalar1 = norx*ux + nory*uy;
+        float uxProj1 = scalar1*norx;
+        float uyProj1 = scalar1*nory;
+        // Second ball
+        float scalar2 = norx*ball.ux + nory*ball.uy;
+        float uxProj2 = scalar2*norx;
+        float uyProj2 = scalar2*nory;
+
+        float uxDelta = (uxProj1 + uxProj2)/2;
+        float uyDelta = (uyProj1 + uyProj2)/2;
+
+        ux -= uxProj1;
+        uy -= uyProj1;
+        ball.ux -= uxProj2;
+        ball.uy -= uyProj2;
+
+        ux += (1-friction) * uxDelta;
+        uy += (1-friction) * uyDelta;
+        ball.ux += (1-friction) * uxDelta;
+        ball.uy += (1-friction) * uyDelta;
+        //#endif
+
+        sounds.play(Sounds::Turn);
+    }
+}
+
+void Ball::checkCollisionGravity(Ball& ball) {
     float norx = (dest.x-ball.dest.x);
     float nory = (dest.y-ball.dest.y);
     float norMod = sqr(norx)+sqr(nory);
@@ -22,12 +68,10 @@ void Ball::checkCollision(Ball& ball) {
     nory /= norm;
 
     // Gravity
-    #if (!BILLIARD)
     ux -= G*norx/norMod;
     uy -= G*nory/norMod;
     ball.ux += G*norx/norMod;
     ball.uy += G*nory/norMod;
-    #endif
 
     // Collisions
     if (norMod < sqr(diameter)) {

@@ -55,7 +55,7 @@ void GravityCycle::update() {
 
     field.updateBoard(mouse);
     field.applyGravity(mouse);
-    field.checkCollision();
+    field.checkCollisionGravity();
     field.updatePositions();
 }
 

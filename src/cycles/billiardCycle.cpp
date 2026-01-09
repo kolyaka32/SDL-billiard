@@ -56,7 +56,7 @@ void BilliardCycle::update() {
     mouse.updatePos();
 
     field.updateBoard(mouse);
-    field.checkCollision();
+    field.checkCollisionBilliard();
     field.checkWallsCollisions();
     field.updatePositions();
 }

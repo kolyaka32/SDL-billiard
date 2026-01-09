@@ -35,13 +35,14 @@ class Board {
     void clickBilliard(const Mouse _mouse);
     void unclickBilliard(const Mouse _mouse);
     void checkWallsCollisions();
+    void checkCollisionBilliard();
     void blitBoard(const Window& window) const;
 
     // Gravity specified options
     void applyGravity(const Mouse _mouse);
+    void checkCollisionGravity();
 
     // General options
-    void checkCollision();
     void updatePositions();
     void blitBalls(const Window& window) const;
 };
