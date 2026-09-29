@@ -11,98 +11,70 @@ Ball::Ball()
 ux(0.0),
 uy(0.0) {}
 
-void Ball::checkCollisionBilliard(Ball& ball) {
-    float norx = (dest.x-ball.dest.x);
-    float nory = (dest.y-ball.dest.y);
-    float norMod = sqr(norx)+sqr(nory);
-    float norm = SDL_sqrtf(norMod);
+Ball::Normal Ball::getNormal(const Ball& _other) {
+    Normal norm;
+    norm.x = (dest.x-_other.dest.x);
+    norm.y = (dest.y-_other.dest.y);
+    norm.sqr = sqr(norm.x)+sqr(norm.y);
+    norm.abs = SDL_sqrtf(norm.sqr);
 
     // Orthogonathing normal
-    norx /= norm;
-    nory /= norm;
+    norm.x /= norm.abs;
+    norm.y /= norm.abs;
 
-    // Collisions
-    if (norMod < sqr(diameter)) {
+    return norm;
+}
+
+void Ball::applyGravity(Ball& _other, const Normal _norm) {
+    ux -= G*_norm.x/_norm.sqr;
+    uy -= G*_norm.y/_norm.sqr;
+    _other.ux += G*_norm.x/_norm.sqr;
+    _other.uy += G*_norm.y/_norm.sqr;
+}
+
+void Ball::checkCollision(Ball& _other, const Normal _norm) {
+    if (_norm.sqr < sqr(diameter)) {
         // Disconnecting objects for correct work
-        dest.x += norx*(diameter-norm);
-        dest.y += nory*(diameter-norm);
-        ball.dest.x -= norx*(diameter-norm);
-        ball.dest.y -= nory*(diameter-norm);
+        dest.x += _norm.x*(diameter-_norm.abs);
+        dest.y += _norm.y*(diameter-_norm.abs);
+        _other.dest.x -= _norm.x*(diameter-_norm.abs);
+        _other.dest.y -= _norm.y*(diameter-_norm.abs);
 
         // Current ball
-        float scalar1 = norx*ux + nory*uy;
-        float uxProj1 = scalar1*norx;
-        float uyProj1 = scalar1*nory;
+        float scalar1 = _norm.x*ux + _norm.y*uy;
+        float uxProj1 = scalar1*_norm.x;
+        float uyProj1 = scalar1*_norm.y;
         // Second ball
-        float scalar2 = norx*ball.ux + nory*ball.uy;
-        float uxProj2 = scalar2*norx;
-        float uyProj2 = scalar2*nory;
+        float scalar2 = _norm.x*_other.ux + _norm.y*_other.uy;
+        float uxProj2 = scalar2*_norm.x;
+        float uyProj2 = scalar2*_norm.y;
 
         float uxDelta = (uxProj1 + uxProj2)/2;
         float uyDelta = (uyProj1 + uyProj2)/2;
 
         ux -= uxProj1;
         uy -= uyProj1;
-        ball.ux -= uxProj2;
-        ball.uy -= uyProj2;
+        _other.ux -= uxProj2;
+        _other.uy -= uyProj2;
 
         ux += (1-friction) * uxDelta;
         uy += (1-friction) * uyDelta;
-        ball.ux += (1-friction) * uxDelta;
-        ball.uy += (1-friction) * uyDelta;
+        _other.ux += (1-friction) * uxDelta;
+        _other.uy += (1-friction) * uyDelta;
 
         audio.sounds.play(Sounds::Turn);
     }
 }
 
-void Ball::checkCollisionGravity(Ball& ball) {
-    float norx = (dest.x-ball.dest.x);
-    float nory = (dest.y-ball.dest.y);
-    float norMod = sqr(norx)+sqr(nory);
-    float norm = SDL_sqrtf(norMod);
+void Ball::checkCollisionBilliard(Ball& _other) {
+    Normal norm = getNormal(_other);
+    checkCollision(_other, norm);
+}
 
-    // Orthogonathing normal
-    norx /= norm;
-    nory /= norm;
-
-    // Gravity
-    ux -= G*norx/norMod;
-    uy -= G*nory/norMod;
-    ball.ux += G*norx/norMod;
-    ball.uy += G*nory/norMod;
-
-    // Collisions
-    if (norMod < sqr(diameter)) {
-        // Disconnecting objects for correct work
-        dest.x += norx*(diameter-norm);
-        dest.y += nory*(diameter-norm);
-        ball.dest.x -= norx*(diameter-norm);
-        ball.dest.y -= nory*(diameter-norm);
-
-        // Current ball
-        float scalar1 = norx*ux + nory*uy;
-        float uxProj1 = scalar1*norx;
-        float uyProj1 = scalar1*nory;
-        // Second ball
-        float scalar2 = norx*ball.ux + nory*ball.uy;
-        float uxProj2 = scalar2*norx;
-        float uyProj2 = scalar2*nory;
-
-        float uxDelta = (uxProj1 + uxProj2)/2;
-        float uyDelta = (uyProj1 + uyProj2)/2;
-
-        ux -= uxProj1;
-        uy -= uyProj1;
-        ball.ux -= uxProj2;
-        ball.uy -= uyProj2;
-
-        ux += (1-friction) * uxDelta;
-        uy += (1-friction) * uyDelta;
-        ball.ux += (1-friction) * uxDelta;
-        ball.uy += (1-friction) * uyDelta;
-
-        audio.sounds.play(Sounds::Turn);
-    }
+void Ball::checkCollisionGravity(Ball& _other) {
+    Normal norm = getNormal(_other);
+    applyGravity(_other, norm);
+    checkCollision(_other, norm);
 }
 
 void Ball::set(SDL_FPoint _point) {

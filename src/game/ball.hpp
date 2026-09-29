@@ -19,6 +19,16 @@ class Ball {
     SDL_FRect dest;
     float ux = 0.0, uy = 0.0;
 
+    struct Normal {
+        float x;
+        float y;
+        float sqr;
+        float abs;
+    };
+    Normal getNormal(const Ball& other);
+    void applyGravity(Ball& other, const Normal norm);
+    void checkCollision(Ball& ball, const Normal norm);
+
  public:
     Ball();
     void set(SDL_FPoint point);
