@@ -13,31 +13,31 @@ Grid::Grid() {
     scale = 1;
 }
 
-void Grid::update(float mouseX, float mouseY) {
+void Grid::update(const Mouse _mouse) {
     if (capture) {
         // Keeping captured point at it place
-        centerX = mouseX - captureX*scale;
-        centerY = mouseY - captureY*scale;
-        logAdditional("Press at %f : %f, get at %f : %f", mouseX, mouseY, centerX, centerY);
+        centerX = _mouse.getX() - captureX*scale;
+        centerY = _mouse.getY() - captureY*scale;
+        logger.additional("Press at %f:%f, get at %f:%f", _mouse.getX(), _mouse.getY(), centerX, centerY);
     }
 }
 
-void Grid::click(float mouseX, float mouseY) {
+void Grid::click(const Mouse _mouse) {
     capture = true;
-    captureX = (mouseX - centerX)/scale;
-    captureY = (mouseY - centerY)/scale;
-    logAdditional("Press at %f : %f, get at %f : %f", mouseX, mouseY, captureX, captureY);
+    captureX = (_mouse.getX() - centerX)/scale;
+    captureY = (_mouse.getY() - centerY)/scale;
+    logger.additional("Press at %f:%f, get at %f:%f", _mouse.getX(), _mouse.getY(), captureX, captureY);
 }
 
-void Grid::unClick(float _mouseX, float _mouseY) {
+void Grid::unClick(const Mouse _mouse) {
     capture = false;
 }
 
-void Grid::zoom(float _wheelY, const Mouse _mouse) {
+void Grid::zoom(const Mouse _mouse, float _wheelY) {
     centerX = (_mouse.getX()-centerX) / scale;
     centerY = (_mouse.getY()-centerY) / scale;
 
-    logAdditional("Scaling center: %f,%f scale:%f", centerX, centerY, scale);
+    logger.additional("Scaling center: %f:%f scale: %f", centerX, centerY, scale);
 
     scale *= SDL_powf(1.5, _wheelY);
 
@@ -47,7 +47,7 @@ void Grid::zoom(float _wheelY, const Mouse _mouse) {
     centerX = _mouse.getX() - centerX * scale;
     centerY = _mouse.getY() - centerY * scale;
 
-    logAdditional("New center: %f,%f scale:%f", centerX, centerY, scale);
+    logger.additional("New center: %f:%f scale:%f", centerX, centerY, scale);
 }
 
 float Grid::absoluteX(float _x) const {

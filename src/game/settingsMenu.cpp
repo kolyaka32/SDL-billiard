@@ -9,15 +9,15 @@
 
 SettingsMenu::SettingsMenu(const Window& _window)
 : SubWindow(_window, 0.5, 0.5, 0.42, 0.75),
-settingButton{_window, 0.97, 0.045, 0.04, Textures::SettingsButton},
+settingButton{_window, 0.96, 0.04, 0.08, Textures::SettingsButton},
 titleText{window, {"Pause", "Пауза", "Pause", "Паўза"},
     {0.5, 0.16, .frame=2, .height=GUI::Title}},
 //titleText{_window, {"Pause", "Пауза"}, {0.5, 0.16, .frame=2, .height=GUI::Title}},
 flags {
     {_window, 0.4, 0.3, 0.16, Textures::FlagUSA},
     {_window, 0.6, 0.3, 0.16, Textures::FlagRUS},
-    {_window, 0.35, 0.45, 0.25, Textures::FlagGER},
-    {_window, 0.65, 0.45, 0.25, Textures::FlagBEL},
+    {_window, 0.4, 0.45, 0.16, Textures::FlagGER},
+    {_window, 0.6, 0.45, 0.16, Textures::FlagBEL},
 },
 #if (PRELOAD_MUSIC)
 musicText{_window, {"Music", "Музыка", "Die Musik", "Музыка"}, {0.5, 0.58, .frame=1}},
@@ -25,7 +25,7 @@ musicSlider{_window, 0.5, 0.64, 0.5, audio.music.getVolume()},
 #endif
 #if (PRELOAD_SOUNDS)
 soundText{_window, {"Sounds", "Звуки", "Geräusche", "Гук"}, {0.5, 0.7, .frame=1}},
-soundSlider{_window, 0.5, 0.76, 0.5, audio.sounds.getVolume()},
+soundSlider{_window, 0.5, 0.76, 0.3, audio.sounds.getVolume()},
 #endif
 closeButton{_window, {"Close", "Закрыть", "Ausfahrt", "Выхад"}, {0.5, 0.84, .frame=1}}
 {}

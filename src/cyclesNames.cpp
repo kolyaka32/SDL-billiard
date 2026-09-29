@@ -4,21 +4,29 @@
  */
 
 #include "data/app.hpp"
-#include "cycles/baseCycle.hpp"
+#include "cycles/selectCycle.hpp"
+#include "cycles/billiardCycle.hpp"
+#include "cycles/gravityCycle.hpp"
 
 
-// Starting cycle
-Cycle App::nextCycle = Cycle::Main;
+Cycle App::nextCycle = Cycle::Select;
 
 void App::run(Window& _window) {
     logger.additional("\nStart app");
 
     // Starting loop of selecting cycles
     while (running) {
-        // Selecting new
         switch (nextCycle) {
-        case Cycle::Main:
-            runCycle<BaseCycle>(_window);
+        case Cycle::Select:
+            runCycle<SelectCycle>(_window);
+            break;
+
+        case Cycle::Billiard:
+            runCycle<BilliardCycle>(_window);
+            break;
+
+        case Cycle::Gravity:
+            runCycle<GravityCycle>(_window);
             break;
 
         default:

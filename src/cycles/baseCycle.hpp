@@ -5,7 +5,6 @@
 
 #pragma once
 
-
 #include "../data/cycleTemplate.hpp"
 #include "../GUI/interface.hpp"
 #include "../game/settingsMenu.hpp"
@@ -18,9 +17,10 @@ class BaseCycle : public CycleTemplate {
     const GUI::ImageButton exitButton;  // Button for exit from mode
 
  public:
-    BaseCycle(Window& _window);
+    BaseCycle(Window& window);
     bool inputMouseDown() override;
-    void update() override;
     void inputMouseUp() override;
-    bool inputMouseWheel(float _wheelY) override;
+    bool inputMouseWheel(float wheelY) override;
+    bool inputKeys(SDL_Keycode key) override;
+    void update() override;
 };

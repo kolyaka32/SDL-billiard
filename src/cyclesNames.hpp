@@ -8,5 +8,7 @@
 // Types of cycles, avalible to run
 enum class Cycle {
     None,
-    Main,
+    Select,
+    Billiard,
+    Gravity,
 };

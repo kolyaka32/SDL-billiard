@@ -22,10 +22,10 @@ class Grid {
  public:
     Grid();
 
-    void click(float mouseX, float mouseY);
-    void unClick(float mouseX, float mouseY);
-    void zoom(float wheelY, const Mouse mouse);
-    void update(float mouseX, float mouseY);
+    void click(const Mouse mouse);
+    void unClick(const Mouse mouse);
+    void zoom(const Mouse mouse, float wheelY);
+    void update(const Mouse mouse);
 
     // Work with local and absolute coordinats
     float absoluteX(float localX) const;

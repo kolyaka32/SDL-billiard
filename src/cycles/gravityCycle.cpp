@@ -4,14 +4,12 @@
  */
 
 #include "gravityCycle.hpp"
-#include "selectCycle.hpp"
 
 
 GravityCycle::GravityCycle(Window& _window)
 : BaseCycle(_window),
-field(2000) {
+field(1000) {
     if (!isRestarted()) {
-        // Resetting field
         field.reset();
     }
 }
@@ -20,39 +18,48 @@ bool GravityCycle::inputMouseDown() {
     if (BaseCycle::inputMouseDown()) {
         return true;
     }
-    field.clickBoard(mouse);
+    if (exitButton.in(mouse)) {
+        stop();
+        App::setNextCycle(Cycle::Select);
+        return true;
+    }
+    if (field.clickBoard(mouse)) {
+        return true;
+    }
     return false;
 }
 
 void GravityCycle::inputMouseUp() {
-    mouse.updatePos();
+    BaseCycle::inputMouseUp();
     field.unclickBoard(mouse);
-    settings.unClick();
 }
 
-void GravityCycle::inputMouseWheel(float _wheelY) {
-    BaseCycle::inputMouseWheel(_wheelY);
-    field.scroll(_wheelY);
+bool GravityCycle::inputMouseWheel(float _wheelY) {
+    if (BaseCycle::inputMouseWheel(_wheelY)) {
+        return true;
+    }
+    if (field.scroll(mouse, _wheelY)) {
+        return true;
+    }
+    return false;
 }
 
-void GravityCycle::inputKeys(SDL_Keycode _key) {
-    // Quiting to menu
+bool GravityCycle::inputKeys(SDL_Keycode _key) {
     if (_key == SDLK_Q) {
+        // Quiting to menu
         stop();
+        return true;
     }
-    if (_key == SDLK_ESCAPE) {
-        // Closing top open object
-        settings.activate();
-        return;
+    if (BaseCycle::inputKeys(_key)) {
+        return true;
     }
+    return false;
 }
 
 void GravityCycle::update() {
     BaseCycle::update();
 
-    Mouse mouse{};
     mouse.updatePos();
-
     field.updateBoard(mouse);
     field.applyGravity(mouse);
     field.checkCollisionGravity();

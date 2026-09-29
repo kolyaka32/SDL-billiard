@@ -6,25 +6,16 @@
 #include "baseCycle.hpp"
 
 
-// Base cycle class
 BaseCycle::BaseCycle(Window& _window)
 : CycleTemplate(_window),
-exitButton(window, 0.04, 0.05, 0.08, Textures::QuitButton),
+exitButton(window, 0.04, 0.04, 0.08, Textures::QuitButton),
 settings(window) {}
 
 bool BaseCycle::inputMouseDown() {
     if (settings.click(mouse)) {
         return true;
     }
-    if (exitButton.in(mouse)) {
-        stop();
-        return true;
-    }
     return false;
-}
-
-void BaseCycle::update() {
-    settings.update();
 }
 
 void BaseCycle::inputMouseUp() {
@@ -33,4 +24,16 @@ void BaseCycle::inputMouseUp() {
 
 bool BaseCycle::inputMouseWheel(float _wheelY) {
     return settings.scroll(mouse, _wheelY);
+}
+
+bool BaseCycle::inputKeys(SDL_Keycode _key) {
+    if (_key == SDLK_ESCAPE) {
+        settings.toggle();
+        return true;
+    }
+    return false;
+}
+
+void BaseCycle::update() {
+    settings.update();
 }

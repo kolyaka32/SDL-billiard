@@ -4,7 +4,6 @@
  */
 
 #include "billiardCycle.hpp"
-#include "selectCycle.hpp"
 
 
 BilliardCycle::BilliardCycle(Window& _window)
@@ -20,41 +19,52 @@ bool BilliardCycle::inputMouseDown() {
     if (BaseCycle::inputMouseDown()) {
         return true;
     }
-    field.clickBoard(mouse);
-    field.clickBilliard(mouse);
+    if (exitButton.in(mouse)) {
+        stop();
+        App::setNextCycle(Cycle::Select);
+        return true;
+    }
+    if (field.clickBoard(mouse)) {
+        return true;
+    }
+    if (field.clickBilliard(mouse)) {
+        return true;
+    }
     return false;
 }
 
 void BilliardCycle::inputMouseUp() {
-    mouse.updatePos();
+    BaseCycle::inputMouseUp();
     field.unclickBoard(mouse);
     field.unclickBilliard(mouse);
-    settings.unClick();
 }
 
-void BilliardCycle::inputMouseWheel(float _wheelY) {
-    BaseCycle::inputMouseWheel(_wheelY);
-    field.scroll(_wheelY);
+bool BilliardCycle::inputMouseWheel(float _wheelY) {
+    if (BaseCycle::inputMouseWheel(_wheelY)) {
+        return true;
+    }
+    if (field.scroll(mouse, _wheelY)) {
+        return true;
+    }
+    return false;
 }
 
-void BilliardCycle::inputKeys(SDL_Keycode _key) {
-    // Quiting to menu
+bool BilliardCycle::inputKeys(SDL_Keycode _key) {
     if (_key == SDLK_Q) {
+        // Quiting to menu
         stop();
+        return true;
     }
-    if (_key == SDLK_ESCAPE) {
-        // Closing top open object
-        settings.activate();
-        return;
+    if (BaseCycle::inputKeys(_key)) {
+        return true;
     }
+    return false;
 }
 
 void BilliardCycle::update() {
     BaseCycle::update();
 
-    Mouse mouse{};
     mouse.updatePos();
-
     field.updateBoard(mouse);
     field.checkCollisionBilliard();
     field.checkWallsCollisions();

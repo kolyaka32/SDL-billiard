@@ -30,7 +30,6 @@ void Ball::checkCollisionBilliard(Ball& ball) {
         ball.dest.y -= nory*(diameter-norm);
 
         // Current ball
-        //#if (BILLIARD)
         float scalar1 = norx*ux + nory*uy;
         float uxProj1 = scalar1*norx;
         float uyProj1 = scalar1*nory;
@@ -51,9 +50,8 @@ void Ball::checkCollisionBilliard(Ball& ball) {
         uy += (1-friction) * uyDelta;
         ball.ux += (1-friction) * uxDelta;
         ball.uy += (1-friction) * uyDelta;
-        //#endif
 
-        sounds.play(Sounds::Turn);
+        audio.sounds.play(Sounds::Turn);
     }
 }
 
@@ -82,7 +80,6 @@ void Ball::checkCollisionGravity(Ball& ball) {
         ball.dest.y -= nory*(diameter-norm);
 
         // Current ball
-        //#if (BILLIARD)
         float scalar1 = norx*ux + nory*uy;
         float uxProj1 = scalar1*norx;
         float uyProj1 = scalar1*nory;
@@ -103,9 +100,8 @@ void Ball::checkCollisionGravity(Ball& ball) {
         uy += (1-friction) * uyDelta;
         ball.ux += (1-friction) * uxDelta;
         ball.uy += (1-friction) * uyDelta;
-        //#endif
 
-        sounds.play(Sounds::Turn);
+        audio.sounds.play(Sounds::Turn);
     }
 }
 
@@ -160,20 +156,20 @@ void Ball::checkWalls(const SDL_FRect _rect) {
     if (dest.x < _rect.x) {
         ux = ux*(friction-1);
         dest.x = _rect.x;
-        sounds.play(Sounds::Turn);
+        audio.sounds.play(Sounds::Turn);
     } else if (dest.x+dest.w > _rect.x+_rect.w) {
         ux = ux*(friction-1);
         dest.x = _rect.x + _rect.w - dest.w;
-        sounds.play(Sounds::Turn);
+        audio.sounds.play(Sounds::Turn);
     }
     if (dest.y < _rect.y) {
         uy = uy*(friction-1);
         dest.y = _rect.y;
-        sounds.play(Sounds::Turn);
+        audio.sounds.play(Sounds::Turn);
     } else if (dest.y+dest.h > _rect.y+_rect.h) {
         uy = uy*(friction-1);
         dest.y = _rect.y + _rect.h - dest.h;
-        sounds.play(Sounds::Turn);
+        audio.sounds.play(Sounds::Turn);
     }
 }
 

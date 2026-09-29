@@ -15,10 +15,8 @@ class SelectCycle : public BaseCycle {
     GUI::TextButton billiardButton;
     GUI::TextButton gravityButton;
 
-    // New overrided cycle functions
+ protected:
     bool inputMouseDown() override;
-    bool inputKeys(SDL_Keycode key) override;
-    void update() override;
     void draw() const override;
 
  public:

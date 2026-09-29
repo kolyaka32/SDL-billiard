@@ -15,7 +15,7 @@ class BilliardCycle : public BaseCycle {
     // Active game part
     Board field;
 
-    // New overrided cycle functions
+ protected:
     bool inputMouseDown() override;
     void inputMouseUp() override;
     bool inputMouseWheel(float _wheelY) override;

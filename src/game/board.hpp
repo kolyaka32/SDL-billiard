@@ -20,20 +20,22 @@ class Board {
     int pressed = 0;
     SDL_FRect sides = {50, 50, 1000, 1000};
 
+    Ball* getNear(SDL_FPoint pos);
+
  public:
     Board(int count);
     ~Board();
     void reset();
 
     // Interacting with scale and position
-    void clickBoard(const Mouse _mouse);
-    void updateBoard(const Mouse _mouse);
-    void unclickBoard(const Mouse _mouse);
-    void scroll(float wheelY);
+    bool clickBoard(const Mouse mouse);
+    void unclickBoard(const Mouse mouse);
+    bool scroll(const Mouse mouse, float wheelY);
+    void updateBoard(const Mouse mouse);
 
     // Billiard-specified options
-    void clickBilliard(const Mouse _mouse);
-    void unclickBilliard(const Mouse _mouse);
+    bool clickBilliard(const Mouse mouse);
+    void unclickBilliard(const Mouse mouse);
     void checkWallsCollisions();
     void checkCollisionBilliard();
     void blitBoard(const Window& window) const;

@@ -27,44 +27,46 @@ void Board::reset() {
     }
 }
 
-void Board::clickBoard(const Mouse _mouse) {
-    // Start camera movement
-    if (_mouse.getState() & SDL_BUTTON_MMASK) {
-        grid.click(_mouse.getX(), _mouse.getY());
+Ball* Board::getNear(SDL_FPoint _pos) {
+    for (int i=0; i < count; ++i) {
+        if (balls[i].isSelected(_pos)) {
+            return &balls[i];
+        }
     }
+    return nullptr;
 }
 
-void Board::scroll(float _wheelY) {
-    Mouse mouse{};
-    mouse.updatePos();
+bool Board::clickBoard(const Mouse _mouse) {
+    // Start camera movement
+    if (_mouse.getState() & SDL_BUTTON_MMASK) {
+        grid.click(_mouse);
+        return true;
+    }
+    return false;
+}
 
-    grid.zoom(_wheelY, mouse);
+bool Board::scroll(const Mouse _mouse, float _wheelY) {
+    grid.zoom(_mouse, _wheelY);
+    return true;
 }
 
 void Board::updateBoard(const Mouse _mouse) {
-    grid.update(_mouse.getX(), _mouse.getY());
+    grid.update(_mouse);
 }
 
 void Board::unclickBoard(const Mouse _mouse) {
-    // Applying camera movement
-    grid.unClick(_mouse.getX(), _mouse.getY());
+    grid.unClick(_mouse);
 }
 
-
-void Board::clickBilliard(const Mouse _mouse) {
-    // Finding nearest ball
-    selected = nullptr;
-    SDL_FPoint current = grid.local(_mouse);
+bool Board::clickBilliard(const Mouse _mouse) {
     if (_mouse.getState() & SDL_BUTTON_LMASK) {
-        for (int i=0; i < count; ++i) {
-            if (balls[i].isSelected(current)) {
-                selected = &balls[i];
-                lastPoint = current;
-                logAdditional("Selected %d", i);
-                return;
-            }
+        SDL_FPoint pos = grid.local(_mouse);
+        if (selected = getNear(pos)) {
+            lastPoint = pos;
         }
+        return true;
     }
+    return false;
 }
 
 void Board::unclickBilliard(const Mouse _mouse) {
@@ -93,7 +95,6 @@ void Board::blitBoard(const Window& _window) const {
     _window.blit(_window.getTexture(Textures::Board), grid.absolute(sides));
 }
 
-
 void Board::applyGravity(const Mouse _mouse) {
     if (_mouse.getState() & SDL_BUTTON_LMASK) {
         // Appling push to all
@@ -116,7 +117,6 @@ void Board::checkCollisionGravity() {
         }
     }
 }
-
 
 void Board::updatePositions() {
     for (int i=0; i < count; ++i) {

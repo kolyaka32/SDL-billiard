@@ -4,15 +4,15 @@
  */
 
 #include <fstream>
-#include <string>
 #include "data/initFile.hpp"
+#include "data/macroses.hpp"
 
 // Check if has initfile
 #if (USE_SETTING_FILE)
 
 // Files to setup
 #include "data/languages.hpp"
-#include "data/preloaded/sounds.hpp"
+#include "data/preloaded/audio.hpp"
 
 
 // Data, load from setting file
@@ -38,8 +38,10 @@ void InitFile::loadSettings() {
             } else if (lang == "belarusian") {
                 LanguagedText::setLanguage(Language::Bellarusian);
             }
-        } else if (parameter == "sounds") {
-            sounds.setVolume(getValue(currentLine));
+        } /*else if (parameter == "music") {
+            audio.music.setVolume(getValue(currentLine) / 100.0f);
+        }*/ else if (parameter == "sounds") {
+            audio.sounds.setVolume(getValue(currentLine) / 100.0f);
         }
     }
     // Closing reading file
@@ -78,7 +80,8 @@ void InitFile::saveSettings() {
     }
 
     // Writing music and sounds volumes
-    outSettings << "sounds = " << sounds.getVolume() << "\n";
+    //outSettings << "music = " << int(audio.music.getVolume()*100) << '\n';
+    outSettings << "sounds = " << int(audio.sounds.getVolume()*100) << '\n';
 }
 
 #endif  // (USE_SETTING_FILE)
