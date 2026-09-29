@@ -1,14 +1,14 @@
 /*
- * Copyright (C) 2025-2026, Kazankov Nikolay
+ * Copyright (C) 2024-2026, Kazankov Nikolay
  * <nik.kazankov.05@mail.ru>
  */
 
 #include "baseGUI.hpp"
 
 
-// Tempate function for resetting texture
-GUI::Template::Template(const Window& _window)
+GUI::Template::Template(const Window& _window) noexcept
 : window(_window) {}
 
-// Template function for draw
+void GUI::Template::move(float X, float Y) {}
+
 void GUI::Template::blit() const {}

@@ -11,13 +11,13 @@
 // Cycle for select variants to start
 class SelectCycle : public BaseCycle {
  private:
-    GUI::HighlightedStaticText titleText;
+    GUI::StaticText titleText;
     GUI::TextButton billiardButton;
     GUI::TextButton gravityButton;
 
     // New overrided cycle functions
     bool inputMouseDown() override;
-    void inputKeys(SDL_Keycode key) override;
+    bool inputKeys(SDL_Keycode key) override;
     void update() override;
     void draw() const override;
 

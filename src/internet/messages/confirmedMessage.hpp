@@ -1,16 +1,15 @@
 /*
- * Copyright (C) 2025-2026, Kazankov Nikolay
+ * Copyright (C) 2026, Kazankov Nikolay
  * <nik.kazankov.05@mail.ru>
  */
 
 #pragma once
 
 #include "message.hpp"
-
-#if (USE_SDL_NET)
-
 #include "../../data/time.hpp"
 #include "indexesArray.cpp"
+
+#if (USE_NET)
 
 
 // Message, waiting for applying of getting
@@ -27,14 +26,15 @@ class ConfirmedMessage : public Message {
     template <typename ...Args>
     ConfirmedMessage(ConnectionCode code, const Args ...args);
     bool isNeedResend();
-    bool applyMessage(Uint8 index) const;  // Check, if that message arrived and need to clearing
+    bool applyMessage(Uint8 index) const;  // Check, if that message arrived and need to be cleared
 };
 
 template <typename ...Args>
 ConfirmedMessage::ConfirmedMessage(ConnectionCode _code, const Args ...args)
 : Message(Uint8(_code), globalMessageIndex, args...),
-messageIndex(globalMessageIndex) {
+messageIndex(globalMessageIndex),
+nextResend(getTime() + messageResendTimeout) {
     updateGlobalIndex();
 }
 
-#endif  // (USE_SDL_NET)
+#endif  // (USE_NET)

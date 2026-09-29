@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025-2026, Kazankov Nikolay
+ * Copyright (C) 2024-2026, Kazankov Nikolay
  * <nik.kazankov.05@mail.ru>
  */
 
@@ -18,5 +18,5 @@ typedef SDL_Color Color;
 #define GREEN {0, 255, 0, 255}
 #define BLUE {0, 0, 255, 255}
 #define GREY {175, 175, 175, 255}
-#define FIELD_LIGHT {255, 206, 158, 255}
-#define FIELD_DARK {206, 139, 71, 255}
+#define DARK_GREY {140, 140, 140, 255}
+#define TRANSPARENT {255, 255, 255, 0}

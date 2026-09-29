@@ -1,9 +1,11 @@
 /*
- * Copyright (C) 2025-2026, Kazankov Nikolay
+ * Copyright (C) 2024-2026, Kazankov Nikolay
  * <nik.kazankov.05@mail.ru>
  */
 
 #include "initFile.hpp"
+#include "macroses.hpp"
+#include "logger.hpp"
 
 
 // Check if has initfile
@@ -11,17 +13,19 @@
 
 InitFile::InitFile() {
     loadSettings();
+    logger.additional("Settings loaded correcly");
 }
 
 InitFile::~InitFile() {
     saveSettings();
+    logger.additional("Settings saved correctly");
 }
 
 const std::string InitFile::getText(const std::string _line) const {
     return _line.substr(_line.rfind('=') + 2);
 }
 
-const unsigned InitFile::getValue(const std::string _line) const {
+int InitFile::getValue(const std::string _line) const {
     return std::stoi(_line.substr(_line.rfind('=') + 2));
 }
 

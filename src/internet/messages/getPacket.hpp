@@ -1,59 +1,52 @@
 /*
- * Copyright (C) 2025-2026, Kazankov Nikolay
+ * Copyright (C) 2026, Kazankov Nikolay
  * <nik.kazankov.05@mail.ru>
  */
 
 #pragma once
 
-#include "swap.hpp"
+#include "../library.hpp"
 
-#if (USE_SDL_NET)
+#if (USE_NET)
 
 
 // Class with getted data from somewhere
 class GetPacket {
  private:
+    // Address, from which
+    sockaddr_in srcAddress;
+    socklen_t srcAddressLength;
     // Data, contained in this array
-    NET_Datagram* datagram;
-    //Uint8* data = nullptr;
-    int offset = 0;
-    //int size;  // Size of packet for check on correction
+    char buffer[100];
+    int length = 0;
 
  public:
-    explicit GetPacket(NET_Datagram* datagramm);
-    ~GetPacket();
-    bool isBytesAvaliable(int bytes);
-    // Functions for get data from message by order
-    template <typename T>
-    T getData();
+    // Trying get new data from specified socket
+    GetPacket* tryGetData(const SocketType winSocket);
+
+    // Working with get data
+    const sockaddr_in* getSourceAddress() const;
+    int getSourceAddressLength() const;
+    // Function for check, if has enought bytes to read
+    bool isBytesAvaliable(int bytes) const;
+    // Returns length of getted data
+    int getLength() const;
     // Functions for get data from message at specified position
     template <typename T>
-    T getData(int offset);
-    const void* getPointer() const;
+    T getData(int offset) const;
+    // Getting pointer to data in message
+    const void* getPointer(int offset) const;
 };
 
 
 template <typename T>
-T GetPacket::getData() {
+T GetPacket::getData(int _offset) const {
     #if (CHECK_CORRECTION)
-    if (offset + sizeof(T) > datagram->buflen) {
-        throw "Can't read data - not enogh length";
+    if (_offset + sizeof(T) > length) {
+        logger.important("Can't read data - not enogh length");
     }
     #endif
-
-    // Moving caret for reading next object correct
-    offset += sizeof(T);
-    return swapLE<T>((T)(*(datagram->buf + offset - sizeof(T))));
+    return readNet((T)(buffer[_offset]));
 }
 
-template <typename T>
-T GetPacket::getData(int _offset) {
-    #if (CHECK_CORRECTION)
-    if (_offset + sizeof(T) > datagram->buflen) {
-        throw "Can't read data - not enogh length";
-    }
-    #endif
-    return swapLE<T>((T)(*(datagram->buf + _offset)));
-}
-
-#endif  // (USE_SDL_NET)
+#endif  // (USE_NET)

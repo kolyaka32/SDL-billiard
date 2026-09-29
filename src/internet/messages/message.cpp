@@ -1,16 +1,12 @@
 /*
- * Copyright (C) 2025-2026, Kazankov Nikolay
+ * Copyright (C) 2026, Kazankov Nikolay
  * <nik.kazankov.05@mail.ru>
  */
 
 #include "message.hpp"
 
-#if (USE_SDL_NET)
 
-
-Message::Message() {}
-
-const Uint8* Message::getData() const {
+const char* Message::getData() const {
     return data;
 }
 
@@ -18,4 +14,19 @@ size_t Message::getLength() const {
     return size;
 }
 
-#endif  // (USE_SDL_NET)
+void Message::write(const char* _str) {
+    // Getting it length
+    unsigned length = SDL_strlen(_str);
+
+    #if (CHECK_CORRECTION)
+    if (size + length > maxSize) {
+        logger.important("Can't write data - not enogh size");
+        return;
+    }
+    #endif
+
+    // Copying data
+    memcpy(data+size, _str, length);
+
+    size += length;
+}

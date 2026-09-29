@@ -18,8 +18,8 @@ class BilliardCycle : public BaseCycle {
     // New overrided cycle functions
     bool inputMouseDown() override;
     void inputMouseUp() override;
-    void inputMouseWheel(float _wheelY) override;
-    void inputKeys(SDL_Keycode _key) override;
+    bool inputMouseWheel(float _wheelY) override;
+    bool inputKeys(SDL_Keycode _key) override;
     void update() override;
     void draw() const override;
 

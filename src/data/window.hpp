@@ -1,11 +1,12 @@
 /*
- * Copyright (C) 2025-2026, Kazankov Nikolay
+ * Copyright (C) 2024-2026, Kazankov Nikolay
  * <nik.kazankov.05@mail.ru>
  */
 
 #pragma once
 
 #include <SDL3/SDL_render.h>
+#include <SDL3/SDL_dialog.h>
 #include "colors.hpp"
 #include "time.hpp"
 #include "preloaded/textures.hpp"
@@ -17,10 +18,12 @@
 // Class of window, drawn functions, work with it
 class Window {
  private:
+    SDL_DisplayID displayID;
     int width, height;
     const LanguagedText titleText;
     SDL_Window* window;
     SDL_Renderer* renderer;
+    float scale;
     #if (USE_SDL_IMAGE) && (PRELOAD_TEXTURES)
     // Preloaded textures
     const TexturesData textures;
@@ -34,6 +37,8 @@ class Window {
     const FontsData fonts;
     #endif
 
+    // Find first avaliable 
+    SDL_DisplayID getAvaliableID() const;
     // Set new title
     void updateTitle(const char* name) const;
 
@@ -45,8 +50,10 @@ class Window {
     // Operate with sizes of window
     int getWidth() const;
     int getHeight() const;
-    void setWidth(int width);
-    void setHeight(int height);
+    void setSize(int width, int height);
+    void setFullscreen();
+
+    // Drawing
     // Set current draw color
     void setDrawColor(Color color = EMPTY) const;
     // Clear all stage with setted color
@@ -58,6 +65,7 @@ class Window {
     void drawPoint(float x, float y) const;
     void drawRect(const SDL_FRect& rect) const;
     void drawLine(float x1, float y1, float x2, float y2) const;
+    void drawGeometry(const SDL_Vertex* vertices, int numVerticies, SDL_Texture* texture = nullptr) const;
 
     // Work with own surfaces
     SDL_Surface* createSurface(int width, int height, SDL_PixelFormat format = SDL_PIXELFORMAT_RGBA32) const;
@@ -69,10 +77,13 @@ class Window {
         SDL_PixelFormat format = SDL_PIXELFORMAT_RGBA32) const;
     SDL_Texture* createTexture(SDL_Surface* surface) const;
     SDL_Texture* createTextureAndFree(SDL_Surface* surface) const;
+    void copyTexture(SDL_Texture* dest, SDL_Texture* src) const;
     void blit(SDL_Texture* texture, const SDL_FRect& dest) const;
     void blit(SDL_Texture* texture, const SDL_FRect* dest = nullptr, const SDL_FRect* src = nullptr) const;
     void blit(SDL_Texture* texture, float angle, const SDL_FRect& rect, const SDL_FRect* src = nullptr,
-        SDL_FPoint center = {0, 0}) const;
+        SDL_FlipMode flipMode = SDL_FLIP_NONE) const;
+    void blit(SDL_Texture* texture, float angle, const SDL_FRect& rect, SDL_FPoint center,
+        const SDL_FRect* src = nullptr, SDL_FlipMode flipMode = SDL_FLIP_NONE) const;
     void setRenderTarget(SDL_Texture* target) const;
     void resetRenderTarget() const;
     void setBlendMode(SDL_Texture* texture, SDL_BlendMode blendMode = SDL_BLENDMODE_NONE) const;
@@ -105,7 +116,14 @@ class Window {
     // Work with window
     void startTextInput() const;
     void stopTextInput() const;
+    void setTitle(const LanguagedText newTitles) const;
     void updateTitle() const;
+
+    // Work with dialog
+    void showSaveFileDialog(SDL_DialogFileCallback callback, const SDL_DialogFileFilter *filters,
+        int nfilters, const char *default_location, void* argument = nullptr) const;
+    void showOpenFileDialog(SDL_DialogFileCallback callback, const SDL_DialogFileFilter *filters,
+        int nfilters, const char *default_location, bool allowMany, void* argument = nullptr) const;
 };
 
 

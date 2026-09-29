@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025-2026, Kazankov Nikolay
+ * Copyright (C) 2024-2026, Kazankov Nikolay
  * <nik.kazankov.05@mail.ru>
  */
 
@@ -22,5 +22,6 @@ class Mouse {
     bool near(float x, float y) const;
     float getX() const;
     float getY() const;
+    SDL_FPoint getPos() const;
     SDL_MouseButtonFlags getState() const;
 };

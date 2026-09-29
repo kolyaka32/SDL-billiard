@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025-2026, Kazankov Nikolay
+ * Copyright (C) 2024-2026, Kazankov Nikolay
  * <nik.kazankov.05@mail.ru>
  */
 
@@ -9,12 +9,24 @@
 // Initialasing static members
 Language LanguagedText::currentLanguage = Language::Default;
 
-LanguagedText::LanguagedText(const std::string englishVariant, const std::string russianVariant,
-    const std::string germanVariant, const std::string bellarussianVariant)
-: textVariants{englishVariant, russianVariant, germanVariant, bellarussianVariant} {}
+LanguagedText::LanguagedText(const std::string _englishVariant, const std::string _russianVariant,
+    const std::string _germanVariant, const std::string _bellarussianVariant)
+: textVariants{_englishVariant, _russianVariant, _germanVariant, _bellarussianVariant} {}
 
-LanguagedText::LanguagedText(const std::string singleVariant)
-: textVariants{singleVariant, singleVariant, singleVariant, singleVariant} {}
+/*LanguagedText::LanguagedText(const std::string _englishVariant, const std::string _russianVariant)
+: textVariants{_englishVariant, _russianVariant} {}*/
+
+LanguagedText::LanguagedText(const std::string _singleVariant)
+: textVariants{_singleVariant, _singleVariant, _singleVariant, _singleVariant} {}
+
+/*LanguagedText::LanguagedText(const std::string _singleVariant)
+: textVariants{_singleVariant, _singleVariant} {}*/
+
+LanguagedText::LanguagedText(const LanguagedText& _copyText) noexcept
+: textVariants(_copyText.textVariants) {}
+
+LanguagedText::LanguagedText(LanguagedText&& _movedText) noexcept
+: textVariants(std::move(_movedText.textVariants)) {}
 
 const std::string& LanguagedText::getString() const {
     return textVariants[(unsigned)currentLanguage];

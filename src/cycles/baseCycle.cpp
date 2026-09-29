@@ -31,6 +31,6 @@ void BaseCycle::inputMouseUp() {
     settings.unClick();
 }
 
-void BaseCycle::inputMouseWheel(float _wheelY) {
-    settings.scroll(mouse, _wheelY);
+bool BaseCycle::inputMouseWheel(float _wheelY) {
+    return settings.scroll(mouse, _wheelY);
 }

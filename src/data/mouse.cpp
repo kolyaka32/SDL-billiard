@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025-2026, Kazankov Nikolay
+ * Copyright (C) 2024-2026, Kazankov Nikolay
  * <nik.kazankov.05@mail.ru>
  */
 
@@ -29,6 +29,10 @@ float Mouse::getX() const {
 
 float Mouse::getY() const {
     return position.y;
+}
+
+SDL_FPoint Mouse::getPos() const {
+    return position;
 }
 
 SDL_MouseButtonFlags Mouse::getState() const {

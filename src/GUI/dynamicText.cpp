@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025-2026, Kazankov Nikolay
+ * Copyright (C) 2024-2026, Kazankov Nikolay
  * <nik.kazankov.05@mail.ru>
  */
 
@@ -8,26 +8,28 @@
 #if (USE_SDL_FONT) && (PRELOAD_FONTS)
 
 
-GUI::DynamicText::DynamicText(const Window& _window, float _X, float _Y,
-    const LanguagedText _texts, float _height, Color _color, Aligment _aligment)
+GUI::DynamicText::DynamicText(const Window& _window, const LanguagedText&& _texts,
+    const TextArgument&& _arguments) noexcept
 : TextureTemplate(_window),
-posX(_X),
-aligment(_aligment),
-color(_color),
-texts(_texts),
-height(_height) {
-    rect.y = window.getHeight() * _Y - height / 2;
+texts(std::move(_texts)),
+argument(std::move(_arguments)) {
     // Creating surface with text
-    texture = window.createTexture(Fonts::Main, height, texts.getString().c_str(), 0, color);
-
+    texture = argument.createTexture(window, texts);
     // Moving draw rect to new place
-    rect.w = texture->w;
-    rect.h = texture->h;
-    rect.x = window.getWidth() * posX - (rect.w * (unsigned)aligment / 2);
+    rect = argument.getRect(window, texture);
 }
 
-GUI::DynamicText::~DynamicText() {
-    SDL_DestroyTexture(texture);
+GUI::DynamicText::DynamicText(DynamicText&& _object) noexcept
+: TextureTemplate(std::move(_object)),
+texts(std::move(_object.texts)),
+argument(std::move(_object.argument)) {}
+
+GUI::DynamicText::~DynamicText() noexcept {
+    if (texture) {
+        SDL_DestroyTexture(texture);
+    } else {
+        logger.important("Dynamic text error");
+    }
 }
 
 #endif  // (USE_SDL_FONT) && (PRELOAD_FONTS)
