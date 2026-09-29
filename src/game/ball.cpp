@@ -66,6 +66,13 @@ void Ball::checkCollision(Ball& _other, const Normal _norm) {
     }
 }
 
+void Ball::checkCollision2(Ball& _other, const Normal _norm) {
+    ux += collison*_norm.x/_norm.sqr/_norm.sqr;
+    uy += collison*_norm.y/_norm.sqr/_norm.sqr;
+    _other.ux -= collison*_norm.x/_norm.sqr/_norm.sqr;
+    _other.uy -= collison*_norm.y/_norm.sqr/_norm.sqr;
+}
+
 void Ball::checkCollisionBilliard(Ball& _other) {
     Normal norm = getNormal(_other);
     checkCollision(_other, norm);

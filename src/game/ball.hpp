@@ -16,6 +16,7 @@ class Ball {
     const float friction = 0;
     const float speed = 0.99;
     const float G = 1;
+    const float collison = 10000.0;
     SDL_FRect dest;
     float ux = 0.0, uy = 0.0;
 
@@ -27,7 +28,8 @@ class Ball {
     };
     Normal getNormal(const Ball& other);
     void applyGravity(Ball& other, const Normal norm);
-    void checkCollision(Ball& ball, const Normal norm);
+    void checkCollision(Ball& other, const Normal norm);
+    void checkCollision2(Ball& other, const Normal norm);
 
  public:
     Ball();

@@ -74,6 +74,7 @@ void Board::unclickBilliard(const Mouse _mouse) {
     if (selected) {
         SDL_FPoint current = grid.local(_mouse);
         selected->setSpeed(current.x - lastPoint.x, current.y - lastPoint.y);
+        selected = nullptr;
     }
 }
 
